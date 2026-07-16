@@ -35,6 +35,7 @@
   --blank:#B9C4BD;
   --footer:#9AA69F;
   --shadow:rgba(38,51,46,.08);
+  --navsel:rgba(56,89,126,.22);
 }
 @media (prefers-color-scheme: dark){
   :root{
@@ -51,6 +52,7 @@
     --blank:#546274;
     --footer:#617083;
     --shadow:rgba(0,0,0,.4);
+    --navsel:rgba(143,178,214,.32);
   }
   .chip{color:var(--deep)}
   .chip.active{background:var(--deep);color:#121A24}
@@ -113,16 +115,16 @@ body{
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .etile{
   background:var(--card);border:none;border-radius:var(--radius);
-  padding:18px 14px 16px;cursor:pointer;text-align:left;
+  padding:14px;cursor:pointer;text-align:left;
   box-shadow:0 1px 4px var(--shadow);
-  display:flex;flex-direction:column;gap:8px;
+  display:flex;flex-direction:row;align-items:center;gap:10px;
   transition:transform .12s ease;
 }
 .etile:active{transform:scale(.97)}
-.etile .dot{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.etile .dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
 .etile .dot svg{width:20px;height:20px}
 .etile .dot .emo{font-size:1.3rem;line-height:1;filter:saturate(.55) contrast(.95);opacity:.85}
-.etile .name{font-family:Georgia,serif;font-size:1.08rem;color:var(--ink)}
+.etile .name{font-family:Georgia,serif;font-size:1.02rem;color:var(--ink);line-height:1.25}
 .etile .count{font-size:.76rem;color:var(--ink-soft)}
 
 /* sub-emotion list */
@@ -208,10 +210,16 @@ nav{
 nav button{
   border:none;background:none;cursor:pointer;color:var(--ink-soft);
   font-size:.72rem;display:flex;flex-direction:column;align-items:center;gap:3px;
-  padding:4px 18px;font-weight:500;
+  padding:6px 16px;font-weight:500;border-radius:14px;
+  transition:background .15s ease, color .15s ease;
 }
 nav button svg{width:22px;height:22px}
-nav button.active{color:var(--deep)}
+nav button.active{
+  color:var(--deep);font-weight:700;
+  background:var(--navsel);
+}
+nav button.active svg{transform:scale(1.1)}
+nav button.active svg *{stroke-width:2.3}
 
 footer{margin-top:36px;text-align:center;font-size:.68rem;color:var(--footer);line-height:1.5;padding:0 12px}
 
@@ -354,7 +362,7 @@ const DATA = [
  stories:[
   {title:"Moses' worst mistake",hook:"Moses killed a man and ran into the desert, sure his life was over. Forty years later, God met him at a burning bush and gave him his greatest calling.",ref:"Exodus 2:11-15 & 3:1-12"}]}
 ]},
-{id:"happy",name:"Happy",tint:"#C0A45E",emoji:"😊",icon:"sun",subs:[
+{id:"happy",name:"Happy",tint:"#C0A45E",emoji:"😊",up:true,icon:"sun",subs:[
  {id:"thankful",name:"Thankful",passages:[
   {ref:"Psalm 107:1",text:"Oh give thanks to the LORD, for he is good, for his steadfast love endures forever!",why:"Gratitude has an address. When something good happens, this is where the thank-you goes.",pray:"God, thank you! You are good, and today I can feel it."},
   {ref:"1 Thessalonians 5:16-18",text:"Rejoice always, pray without ceasing, give thanks in all circumstances; for this is the will of God in Christ Jesus for you.",why:"Ever wonder what God's will for you is? Here's part of it, spelled out: rejoice, pray, give thanks.",pray:"Father, keep me thankful — not just today when it's easy, but in everything."},
@@ -537,6 +545,84 @@ const DATA = [
   {ref:"Philippians 4:19",text:"And my God will supply every need of yours according to his riches in glory in Christ Jesus.",why:"Every need — supplied from riches that never run low. Wants and needs aren’t the same, but he covers what you truly need.",pray:"God, supply what I actually need, and quiet my heart about the rest."}],
  stories:[
   {title:"The king who wanted a vineyard",hook:"King Ahab had a palace and a kingdom, but he sulked in bed because he couldn’t have one man’s vineyard — and coveting led him somewhere terrible. Wanting can own you.",ref:"1 Kings 21"}]}
+]},
+{id:"hopeful",name:"Hopeful",tint:"#D49A7A",emoji:"🌅",up:true,icon:"sun",subs:[
+ {id:"future",name:"Excited about the future",passages:[
+  {ref:"Psalm 37:4",text:"Delight yourself in the LORD, and he will give you the desires of your heart.",why:"God isn’t against your dreams — he plants desires in hearts that delight in him. Dream with him, not just near him.",pray:"Lord, I’m excited about what’s ahead. Shape my desires as I delight in you."},
+  {ref:"Proverbs 16:3",text:"Commit your work to the LORD, and your plans will be established.",why:"Hand God the blueprints. Plans committed to him get his establishing power behind them.",pray:"God, here are my plans — I’m committing them to you. Establish the ones you want."},
+  {ref:"Jeremiah 29:11",text:"For I know the plans I have for you, declares the LORD, plans for welfare and not for evil, to give you a future and a hope.",why:"Your hopeful feeling is backed by an actual promise: God has plans for you, and they’re good.",pray:"Father, thank you that my future is something you’ve already planned for good."}],
+ stories:[
+  {title:"Count the stars",hook:"God took Abraham outside on a dark night and said, “Look toward heaven, and number the stars... So shall your offspring be.” Abraham believed him — and God kept every word.",ref:"Genesis 15:1-6"}]},
+ {id:"answered",name:"God answered a prayer",passages:[
+  {ref:"Psalm 116:1-2",text:"I love the LORD, because he has heard my voice and my pleas for mercy. Because he inclined his ear to me, therefore I will call on him as long as I live.",why:"God leaned in to listen to you. Let an answered prayer turn into a lifetime habit of calling on him.",pray:"Lord, you heard me! I love you for it — and I’ll keep calling on you as long as I live."},
+  {ref:"Psalm 66:19-20",text:"But truly God has listened; he has attended to the voice of my prayer. Blessed be God, because he has not rejected my prayer or removed his steadfast love from me!",why:"Take a second to actually celebrate: God listened. Answered prayers deserve a thank-you party.",pray:"Blessed be God — you didn’t reject my prayer! Thank you for listening to me."},
+  {ref:"1 Samuel 7:12",text:"...Till now the LORD has helped us.",why:"Samuel set up a stone so no one would forget what God did. Write your answered prayer down — build your own memorial.",pray:"God, you helped me this far. Help me remember this moment the next time I’m waiting."}],
+ stories:[
+  {title:"Hannah’s tears become a thank-you",hook:"Hannah prayed for a child so desperately that Eli thought something was wrong. God answered — and her prayer of celebration is one of the most beautiful in the Bible.",ref:"1 Samuel 1-2:11"}]},
+ {id:"encouraged",name:"Encouraged by someone",passages:[
+  {ref:"Proverbs 12:25",text:"Anxiety in a man’s heart weighs him down, but a good word makes him glad.",why:"You just felt the proof of this verse — a good word really does lift the weight. Remember how this feels and pass it on.",pray:"God, thank you for the person who spoke life to me. Help me be that person for someone else."},
+  {ref:"1 Thessalonians 5:11",text:"Therefore encourage one another and build one another up, just as you are doing.",why:"Encouragement is meant to be a relay, not a dead end. You’ve been handed the baton.",pray:"Lord, show me one person today who needs the encouragement I just got."},
+  {ref:"Hebrews 10:24",text:"And let us consider how to stir up one another to love and good works.",why:"The best response to being built up is to start scheming — literally considering — how to build someone else up.",pray:"Father, make me a stirrer-upper of love and good works."}],
+ stories:[
+  {title:"The man who vouched for Saul",hook:"When everyone was afraid of Saul the persecutor, Barnabas — whose name means “son of encouragement” — stood up for him. That one act of encouragement gave the church the apostle Paul.",ref:"Acts 9:26-28"}]},
+ {id:"closetogod",name:"Feeling close to God",passages:[
+  {ref:"Psalm 73:28",text:"But for me it is good to be near God; I have made the Lord GOD my refuge, that I may tell of all your works.",why:"That closeness you’re feeling? The psalmist names it simply: it is good to be near God. Stay a while.",pray:"Lord, it’s good to be near you. I don’t want to rush off — I just want to stay close."},
+  {ref:"James 4:8",text:"Draw near to God, and he will draw near to you.",why:"This moment isn’t one-sided. As you’ve moved toward God, he’s been moving toward you.",pray:"God, I’m drawing near — thank you for drawing near to me too."},
+  {ref:"Psalm 84:10",text:"For a day in your courts is better than a thousand elsewhere.",why:"One day close to God beats a thousand anywhere else. You’ve found the math of worship.",pray:"Father, nothing compares to being with you. One day near you is better than a thousand elsewhere."}],
+ stories:[
+  {title:"The man whose face glowed",hook:"Moses spent so much time in God’s presence that his face literally shone when he came down the mountain — he didn’t even know it. Time with God changes you visibly.",ref:"Exodus 34:29-35"}]}
+]},
+{id:"loved",name:"Loved",tint:"#C68A8A",emoji:"🥰",up:true,icon:"heart",subs:[
+ {id:"byfamily",name:"Loved by my family",passages:[
+  {ref:"Psalm 103:13",text:"As a father shows compassion to his children, so the LORD shows compassion to those who fear him.",why:"Family love is a picture God chose on purpose — it’s a small taste of how he feels about you.",pray:"God, thank you for my family’s love. Help me see your even bigger love behind it."},
+  {ref:"Psalm 127:3",text:"Behold, children are a heritage from the LORD, the fruit of the womb a reward.",why:"You’re not an accident in your family — Scripture calls you a heritage and a reward. You’re the gift.",pray:"Father, thank you for placing me in my family, and for calling me a gift to them."},
+  {ref:"1 John 4:11",text:"Beloved, if God so loved us, we also ought to love one another.",why:"Loved people love people — starting at home. Let the love you receive flow back out.",pray:"Lord, help me love my family the way they love me — and the way you love us all."}],
+ stories:[
+  {title:"Jesus’ last thought was family",hook:"Even while dying on the cross, Jesus looked down, saw his mother, and made sure she’d be cared for. Family love mattered to him to the very end.",ref:"John 19:25-27"}]},
+ {id:"byfriends",name:"Loved by my friends",passages:[
+  {ref:"Proverbs 17:17",text:"A friend loves at all times, and a brother is born for adversity.",why:"A friend who loves at all times — not just the fun ones — is one of God’s best gifts. Treasure them.",pray:"God, thank you for friends who love me at all times. Help me be that kind of friend back."},
+  {ref:"Ecclesiastes 4:9-10",text:"Two are better than one, because they have a good reward for their toil. For if they fall, one will lift up his fellow.",why:"Good friends are lifting equipment — when one falls, the other pulls them up. You’ve got that. Be that.",pray:"Lord, thank you for people who lift me up when I fall."},
+  {ref:"John 15:12",text:"This is my commandment, that you love one another as I have loved you.",why:"Jesus set the standard for friendship: love the way he loves. Your friends showing up for you is that command in action.",pray:"Jesus, help my friendships look like your kind of love."}],
+ stories:[
+  {title:"A friendship knit together",hook:"Jonathan was the prince — next in line for the throne — but he loved David “as his own soul” and even gave him his royal robe. Real friends celebrate you instead of competing with you.",ref:"1 Samuel 18:1-4"}]},
+ {id:"bygod",name:"Loved by God",passages:[
+  {ref:"Romans 8:38-39",text:"For I am sure that neither death nor life, nor angels nor rulers, nor things present nor things to come, nor powers, nor height nor depth, nor anything else in all creation, will be able to separate us from the love of God in Christ Jesus our Lord.",why:"Paul lists everything that could possibly come between you and God’s love — and rules out all of it. Nothing qualifies. Nothing ever will.",pray:"God, nothing can separate me from your love. Let that sink all the way in today."},
+  {ref:"1 John 3:1",text:"See what kind of love the Father has given to us, that we should be called children of God; and so we are.",why:"Not servants, not fans, not projects — children. That’s your actual status with the God of the universe.",pray:"Father, thank you for calling me your child — and for meaning it."},
+  {ref:"Zephaniah 3:17",text:"The LORD your God is in your midst, a mighty one who will save; he will rejoice over you with gladness; he will quiet you by his love; he will exult over you with loud singing.",why:"Read that again: God sings over you. Loudly. With joy. You are delighted in.",pray:"Lord, help me hear even an echo of the song you sing over me."}],
+ stories:[
+  {title:"The shepherd who left the ninety-nine",hook:"One sheep wandered off, and the shepherd left the other ninety-nine to go find it — then carried it home and threw a party. That’s how God feels about you.",ref:"Luke 15:3-7"}]},
+ {id:"loveothers",name:"Wanting to love others better",passages:[
+  {ref:"1 Corinthians 13:4-7",text:"Love is patient and kind; love does not envy or boast; it is not arrogant or rude. It does not insist on its own way; it is not irritable or resentful; it does not rejoice at wrongdoing, but rejoices with the truth. Love bears all things, believes all things, hopes all things, endures all things.",why:"This is love’s checklist. Try putting your own name where the word “love” is — that’s the goal to grow toward.",pray:"God, grow this kind of love in me: patient, kind, humble, and strong."},
+  {ref:"1 John 3:18",text:"Little children, let us not love in word or talk but in deed and in truth.",why:"Love isn’t a caption — it’s a verb. The upgrade from saying to doing is where love gets real.",pray:"Lord, show me one deed of love I can actually do today."},
+  {ref:"John 13:35",text:"By this all people will know that you are my disciples, if you have love for one another.",why:"Jesus said love would be his followers’ uniform — the thing people recognize them by. Wear it well.",pray:"Jesus, let people recognize you in the way I love others."}],
+ stories:[
+  {title:"The neighbor nobody expected",hook:"A man was beaten and left for dead, and the religious experts walked right past. The one who stopped — a Samaritan, the last person anyone expected — showed what loving your neighbor actually costs.",ref:"Luke 10:25-37"}]}
+]},
+{id:"confident",name:"Confident",tint:"#4F7CAC",emoji:"😎",up:true,icon:"sun",subs:[
+ {id:"challenge",name:"Ready for a challenge",passages:[
+  {ref:"Psalm 18:29",text:"For by you I can run against a troop, and by my God I can leap over a wall.",why:"David’s game-day verse. With God, you don’t just face the challenge — you run at it.",pray:"God, with you I can run at this challenge. Let’s go over the wall together."},
+  {ref:"Psalm 28:7",text:"The LORD is my strength and my shield; in him my heart trusts, and I am helped; my heart exults, and with my song I give thanks to him.",why:"Strength for the push and a shield for the hits — God covers both sides of any challenge.",pray:"Lord, be my strength and my shield today. My heart trusts you."},
+  {ref:"Philippians 4:13",text:"I can do all things through him who strengthens me.",why:"Confidence with the right power source. It’s not “I can do all things” — it’s “through him.”",pray:"Jesus, strengthen me for what’s in front of me — my confidence is in you."}],
+ stories:[
+  {title:"Two men against an army",hook:"Jonathan and his armor-bearer climbed a cliff to attack an enemy outpost alone, saying “nothing can hinder the LORD from saving by many or by few.” God honored that confidence.",ref:"1 Samuel 14:1-15"}]},
+ {id:"growing",name:"Growing and getting better",passages:[
+  {ref:"Philippians 1:6",text:"And I am sure of this, that he who began a good work in you will bring it to completion at the day of Jesus Christ.",why:"You’re a good work in progress — and the one doing the work never abandons a project.",pray:"God, thank you for the growth I can see. Keep working — I know you’ll finish what you started."},
+  {ref:"Luke 2:52",text:"And Jesus increased in wisdom and in stature and in favor with God and man.",why:"Even Jesus grew — mentally, physically, spiritually, socially. Growing up is holy work.",pray:"Lord, help me grow like you did: in wisdom, in strength, and in favor with God and people."},
+  {ref:"2 Peter 3:18",text:"But grow in the grace and knowledge of our Lord and Savior Jesus Christ.",why:"Growth isn’t just for sports and school — grace and knowledge of Jesus are meant to keep growing too.",pray:"Jesus, as I get better at other things, help me grow in knowing you most of all."}],
+ stories:[
+  {title:"The boy who grew up in God’s house",hook:"Samuel started as a little kid serving in the temple, and “continued to grow both in stature and in favor with the LORD and also with man” — until all Israel knew God was with him.",ref:"1 Samuel 2:26 & 3"}]},
+ {id:"standing",name:"Standing up for what’s right",passages:[
+  {ref:"Joshua 24:15",text:"...choose this day whom you will serve... But as for me and my house, we will serve the LORD.",why:"Joshua planted a flag in front of everyone. Confidence sometimes looks like declaring your side out loud.",pray:"God, give me Joshua’s boldness: as for me, I will serve the LORD."},
+  {ref:"1 Corinthians 16:13",text:"Be watchful, stand firm in the faith, act like men, be strong.",why:"Four commands, no apologies. Standing for what’s right takes alertness, firmness, maturity, and strength — God supplies all four.",pray:"Lord, make me watchful, firm, mature, and strong when it’s time to stand."},
+  {ref:"Daniel 1:8",text:"But Daniel resolved that he would not defile himself...",why:"Daniel decided in advance where his line was — before the pressure came. Resolve ahead of time and standing firm gets easier.",pray:"God, help me decide where I stand before the moment tests me."}],
+ stories:[
+  {title:"“We cannot stop speaking”",hook:"Peter and John — “uneducated, common men” — stood before the most powerful council in the land and refused to stay quiet about Jesus. The council was astonished at their boldness.",ref:"Acts 4:13-20"}]},
+ {id:"newthing",name:"Trying something new",passages:[
+  {ref:"Proverbs 3:26",text:"...for the LORD will be your confidence and will keep your foot from being caught.",why:"Real confidence isn’t self-confidence — it’s God-confidence. He steadies your feet on unfamiliar ground.",pray:"Lord, be my confidence as I try this new thing. Keep my feet steady."},
+  {ref:"Isaiah 43:19",text:"Behold, I am doing a new thing; now it springs forth, do you not perceive it? I will make a way in the wilderness and rivers in the desert.",why:"God loves new things — he specializes in making ways where there weren’t any. Your new venture is his kind of territory.",pray:"God, you make rivers in deserts. Make a way in this new thing I’m starting."},
+  {ref:"Ecclesiastes 11:4",text:"He who observes the wind will not sow, and he who regards the clouds will not reap.",why:"Wait for perfect conditions and you’ll wait forever. At some point, faith plants the seed.",pray:"Father, help me stop watching the clouds and just plant the seed."}],
+ stories:[
+  {title:"The cupbearer asks the king",hook:"Nehemiah had a safe job and a scary idea: ask the most powerful man alive for permission to rebuild Jerusalem. He prayed a quick silent prayer, opened his mouth — and the king said yes.",ref:"Nehemiah 2:1-8"}]}
 ]}
 ];
 
@@ -550,6 +636,9 @@ const MEMORY_POOLS = {
  confused:[{ref:"Proverbs 3:5-6",text:"Trust in the LORD with all your heart, and do not lean on your own understanding. In all your ways acknowledge him, and he will make straight your paths."},{ref:"James 1:5",text:"If any of you lacks wisdom, let him ask God, who gives generously to all without reproach, and it will be given him."}],
  fearful:[{ref:"2 Timothy 1:7",text:"For God gave us a spirit not of fear but of power and love and self-control."},{ref:"Psalm 27:1",text:"The LORD is my light and my salvation; whom shall I fear?"}],
  jealous:[{ref:"Proverbs 14:30",text:"A tranquil heart gives life to the flesh, but envy makes the bones rot."},{ref:"1 Corinthians 13:4",text:"Love is patient and kind; love does not envy or boast; it is not arrogant."}],
+ hopeful:[{ref:"Psalm 37:4",text:"Delight yourself in the LORD, and he will give you the desires of your heart."},{ref:"Lamentations 3:25",text:"The LORD is good to those who wait for him, to the soul who seeks him."}],
+ loved:[{ref:"1 John 4:19",text:"We love because he first loved us."},{ref:"1 John 3:1",text:"See what kind of love the Father has given to us, that we should be called children of God; and so we are."}],
+ confident:[{ref:"Proverbs 3:26",text:"...for the LORD will be your confidence and will keep your foot from being caught."},{ref:"1 Corinthians 16:13",text:"Be watchful, stand firm in the faith, act like men, be strong."}],
  overwhelmed:[{ref:"Matthew 11:28",text:"Come to me, all who labor and are heavy laden, and I will give you rest."},{ref:"Isaiah 40:31",text:"They who wait for the LORD shall renew their strength; they shall mount up with wings like eagles."}]
 };
 const MEMORY_GENERAL = [
@@ -903,16 +992,21 @@ function renderHome(){
     + '</div>'
     + '<div class="hint">Try to say it from memory a little each day this week.</div></div>';
   html += '<div class="sechead serif" style="margin-top:6px;font-size:1.25rem;letter-spacing:0;text-transform:none;color:var(--ink);font-weight:400">How are you feeling?</div>';
-  html += '<div class="grid" style="margin-top:10px">' + [...DATA].sort((a,b)=>a.name.localeCompare(b.name)).map(e =>
+  const tile = e =>
     '<button class="etile" onclick="openEmotion(\''+e.id+'\')">'
     + '<span class="dot" style="background:'+e.tint+'1E"><span class="emo">'+e.emoji+'</span></span>'
     + '<span class="name">'+e.name+'</span>'
-    + '</button>').join('') + '</div>';
+    + '</button>';
+  const byName = (a,b)=>a.name.localeCompare(b.name);
+  const down = DATA.filter(e=>!e.up).sort(byName);
+  const up = DATA.filter(e=>e.up).sort(byName);
+  html += '<div class="sechead" style="margin-top:16px">Feeling down</div>';
+  html += '<div class="grid" style="margin-top:8px">' + down.map(tile).join('') + '</div>';
+  html += '<div class="sechead" style="margin-top:22px">Feeling up</div>';
+  html += '<div class="grid" style="margin-top:8px">' + up.map(tile).join('') + '</div>';
   const standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone;
   if(!standalone && !S.get('hintDismissed', false)){
-    const ios = /iPhone|iPad|iPod/i.test(navigator.userAgent || '');
-    const how = ios ? 'tap the Share button, then \u201cAdd to Home Screen\u201d' : 'open the browser menu (\u22ee), then tap \u201cAdd to Home screen\u201d';
-    html += '<div class="banner"><div><b>Make it an app:</b> '+how+'. It\u2019ll work offline and keep your journal safe.</div>'
+    html += '<div class="banner"><div><b>Make this an app on your home screen:</b> open the url in Safari (iPhone) and tap Share, then \u201cAdd to Home Screen\u201d \u2014 or in Chrome (Android), tap the menu (\u22ee), then \u201cAdd to Home screen\u201d. It will work offline and keep your journal safe.</div>'
       + '<button class="x" onclick="dismissHint()" aria-label="Dismiss">\u2715</button></div>';
   }
   html += footer();
