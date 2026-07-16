@@ -728,8 +728,57 @@ function renderJournal(){
   } else {
     html += '<div class="empty">Your entries stay on this phone — just between you and God.</div>';
   }
+  html += '<div class="sechead" style="margin-top:34px">Back up &amp; restore</div>'
+    + '<div class="pcard" style="border-left-color:var(--sage)">'
+    + '<div class="why" style="margin-top:0">Everything in this app (journal, saved verses, memory verse) lives only on this phone. Save a backup file every so often — you can restore it here anytime, even on a new phone.</div>'
+    + '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">'
+    + '<button class="chip" onclick="exportBackup()">⬇ Save backup file</button>'
+    + '<button class="chip" onclick="document.getElementById(\'importfile\').click()">⬆ Restore from backup</button>'
+    + '</div>'
+    + '<input type="file" id="importfile" accept=".json,application/json" style="display:none" onchange="importBackup(this)">'
+    + '</div>';
   html += footer();
   app.innerHTML = html;
+}
+
+function exportBackup(){
+  const data = {
+    app: 'at-all-times', version: 1, exported: new Date().toISOString(),
+    journal: S.get('journal', []),
+    favs: S.get('favs', []),
+    memverse: S.get('memverse', null),
+    visits: S.get('visits', {})
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'at-all-times-backup-' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+function importBackup(input){
+  const file = input.files && input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const data = JSON.parse(reader.result);
+      if(data.app !== 'at-all-times') throw new Error('wrong file');
+      const n = (data.journal||[]).length, f = (data.favs||[]).length;
+      if(!confirm('Restore backup from ' + (data.exported ? data.exported.slice(0,10) : 'unknown date') + '? This will replace what’s on this phone (' + n + ' journal entries, ' + f + ' saved verses).')) { input.value=''; return; }
+      if(Array.isArray(data.journal)) S.set('journal', data.journal);
+      if(Array.isArray(data.favs)) S.set('favs', data.favs);
+      if(data.memverse) S.set('memverse', data.memverse);
+      if(data.visits && typeof data.visits === 'object') S.set('visits', data.visits);
+      input.value = '';
+      render();
+      alert('Backup restored!');
+    }catch(e){
+      input.value = '';
+      alert('That doesn’t look like an At All Times backup file.');
+    }
+  };
+  reader.readAsText(file);
 }
 function addEntry(){
   const t = document.getElementById('jtext').value.trim();
@@ -774,6 +823,7 @@ render();
 if('serviceWorker' in navigator){
   try{ navigator.serviceWorker.register('sw.js'); }catch(e){}
 }
+try{ if(navigator.storage && navigator.storage.persist){ navigator.storage.persist(); } }catch(e){}
 </script>
 </body>
 </html>
