@@ -896,10 +896,10 @@ function renderHome(){
     + (v.source === 'chosen' ? ' \u00b7 your pick' : (v.source ? ' \u00b7 for when you\u2019ve felt '+esc(v.source) : ''))
     + '</div>'
     + '<div class="vtext">'+practiceText(v.text, state.practice)+'</div>'
-    + '<div class="vref">— '+esc(v.ref)+' (ESV)</div>'
+    + '<div class="vref"><span>— '+esc(v.ref)+' (ESV)</span>'
+    + '<button class="share" aria-label="Share verse" data-t="'+esc(v.text)+'" data-r="'+esc(v.ref)+'" onclick="shareVerse(this.dataset.t, this.dataset.r)">'+svg('shareic')+'</button></div>'
     + '<div class="tools">'
     + modes.map((m,i)=>'<button class="chip'+(state.practice===i?' active':'')+'" onclick="go({practice:'+i+'})">'+m+'</button>').join('')
-    + '<button class="chip" data-t="'+esc(v.text)+'" data-r="'+esc(v.ref)+'" onclick="shareVerse(this.dataset.t, this.dataset.r)">Share</button>'
     + '</div>'
     + '<div class="hint">Try to say it from memory a little each day this week.</div></div>';
   html += '<div class="sechead serif" style="margin-top:6px;font-size:1.25rem;letter-spacing:0;text-transform:none;color:var(--ink);font-weight:400">How are you feeling?</div>';
