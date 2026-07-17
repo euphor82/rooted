@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Rooted</title>
 <meta name="description" content="Find a verse for how you feel.">
-<meta name="theme-color" content="#38597E">
+<meta name="theme-color" content="#17706F">
 <meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1122,7 +1122,7 @@ function practiceText(text, mode){
 }
 
 // ============ STATE & ROUTER ============
-let state = { screen:'home', emotionId:null, subId:null, practice:0, editJ:null, readCat:null, readId:null };
+let state = { screen:'home', emotionId:null, subId:null, practice:0, editJ:null, readCat:null, readId:null, queueOpen:false };
 function go(s){ Object.assign(state, s); render(); window.scrollTo(0,0); }
 function currentEmotion(){ return DATA.find(e=>e.id===state.emotionId); }
 function currentSub(){ const e = currentEmotion(); return e ? e.subs.find(s=>s.id===state.subId) : null; }
@@ -1215,7 +1215,8 @@ function renderHome(){
   const greet = hr < 12 ? 'Good morning' : hr < 17 ? 'Good afternoon' : 'Good evening';
   const modes = ['Full verse','Hide some','Hide all'];
   let html = '<div class="top"><div style="width:100%;text-align:center"><h1>Rooted</h1>'
-    + '<div class="sub serif" style="margin-top:6px;font-style:italic;line-height:1.5">\u201cTrust in him at all times...\u201d \u2014 Psalm 62:8</div>'
+    + '<div class="sub" style="margin-top:8px;font-size:.95rem;color:var(--ink);font-weight:500;line-height:1.25">God\u2019s word for every moment.</div>'
+    + '<div class="sub" style="margin-top:0;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;line-height:1.4">Grow deep. Stand strong.</div>'
     + '</div></div>';
   html += '<div class="greet">'+greet+'</div>';
   html += '<div class="mem"><div class="label">This week\u2019s memory verse'
@@ -1231,9 +1232,13 @@ function renderHome(){
     + (function(){
         const q = S.get('memqueue', []);
         if(!q.length) return '';
-        return '<div class="hint" style="margin-top:10px">Up next:</div><div class="chips" style="margin-top:6px">'
-          + q.map(v => '<button class="chip" data-r="'+esc(v.ref)+'" onclick="unqueueMemVerse(this.dataset.r)" title="Tap to remove">'+esc(v.ref)+' \u2715</button>').join('')
-          + '</div>';
+        return '<button class="chip" style="margin-top:12px" onclick="go({queueOpen:'+(state.queueOpen?'false':'true')+'})">'
+          + 'Up next ('+q.length+') '+(state.queueOpen?'\u25B4':'\u25BE')+'</button>'
+          + (state.queueOpen
+            ? '<div class="chips" style="margin-top:8px">'
+              + q.map(v => '<button class="chip" data-r="'+esc(v.ref)+'" onclick="unqueueMemVerse(this.dataset.r)" title="Tap to remove">'+esc(v.ref)+' \u2715</button>').join('')
+              + '</div>'
+            : '');
       })()
     + '</div>';
   html += '<div class="sechead serif" style="margin-top:6px;font-size:1.25rem;letter-spacing:0;text-transform:none;color:var(--ink);font-weight:400">How are you feeling?</div>';
@@ -1429,7 +1434,10 @@ function saveEdit(i){
 function cancelEdit(){ go({editJ:null}); }
 
 function footer(){
-  return '<footer>Scripture quotations are from the ESV\u00ae Bible (The Holy Bible, English Standard Version\u00ae), \u00a9 2001 by Crossway. Used by permission. All rights reserved.</footer>';
+  return '<footer>'
+    + '<div class="serif" style="font-style:italic;font-size:.86rem;color:var(--deep);line-height:1.5;margin-bottom:2px">\u201cTrust in him at all times...\u201d</div>'
+    + '<div style="font-size:.72rem;margin-bottom:12px">Psalm 62:8</div>'
+    + 'Scripture quotations are from the ESV\u00ae Bible (The Holy Bible, English Standard Version\u00ae), \u00a9 2001 by Crossway. Used by permission. All rights reserved.</footer>';
 }
 
 function renderNav(){
@@ -1650,5 +1658,7 @@ if('serviceWorker' in navigator){
 }
 try{ if(navigator.storage && navigator.storage.persist){ navigator.storage.persist(); } }catch(e){}
 </script>
+<script data-goatcounter="https://rooted.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
