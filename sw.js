@@ -1,4 +1,4 @@
-const CACHE = 'at-all-times-v9';
+const CACHE = 'rooted-v12';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

@@ -1,6 +1,6 @@
 {
-  "name": "At All Times",
-  "short_name": "At All Times",
+  "name": "Rooted",
+  "short_name": "Rooted",
   "description": "Find a verse for how you feel.",
   "start_url": "./index.html",
   "scope": "./",

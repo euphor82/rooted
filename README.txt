@@ -1,4 +1,4 @@
-AT ALL TIMES — setup
+ROOTED — setup
 
 WHAT'S HERE
   index.html          the whole app (works on its own if you just open it)
@@ -8,10 +8,10 @@ WHAT'S HERE
   apple-touch-icon.png  home screen icon for iPhone
 
 HOSTING ON GITHUB PAGES (same as your training-log site)
-  1. Create a new repo (e.g. "at-all-times") or a folder in an existing Pages repo
+  1. Create a new repo (e.g. "rooted") or a folder in an existing Pages repo
   2. Upload all 6 files
   3. Enable GitHub Pages (Settings > Pages > deploy from main branch)
-  4. Visit https://YOURUSERNAME.github.io/at-all-times/ on each kid's phone
+  4. Visit https://YOURUSERNAME.github.io/rooted/ on each kid's phone
 
 SAVING TO THEIR PHONES
   iPhone:  open the link in Safari > Share button > "Add to Home Screen"
@@ -24,4 +24,4 @@ NOTES
   - The memory verse changes each Monday, tailored to whichever emotion
     they visited most the week before; falls back to classics if unused
   - To update content later, edit the DATA section in index.html and
-    bump the cache name in sw.js (e.g. 'at-all-times-v2')
+    bump the cache name in sw.js (e.g. 'rooted-v2')

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>At All Times</title>
+<title>Rooted</title>
 <meta name="description" content="Find a verse for how you feel.">
 <meta name="theme-color" content="#38597E">
 <meta name="color-scheme" content="light dark">
@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="At All Times">
+<meta name="apple-mobile-web-app-title" content="Rooted">
 <style>
 @font-face{
   font-family:'Great Vibes';
@@ -210,7 +210,7 @@ nav{
 nav button{
   border:none;background:none;cursor:pointer;color:var(--ink-soft);
   font-size:.72rem;display:flex;flex-direction:column;align-items:center;gap:3px;
-  padding:6px 16px;font-weight:500;border-radius:14px;
+  padding:6px 9px;font-weight:500;border-radius:14px;
   transition:background .15s ease, color .15s ease;
 }
 nav button svg{width:22px;height:22px}
@@ -223,6 +223,30 @@ nav button.active svg *{stroke-width:2.3}
 
 footer{margin-top:36px;text-align:center;font-size:.68rem;color:var(--footer);line-height:1.5;padding:0 12px}
 
+
+
+/* reads */
+.rcat{background:var(--card);border:none;border-radius:var(--radius);padding:16px 18px;cursor:pointer;text-align:left;box-shadow:0 1px 4px var(--shadow);display:flex;align-items:center;gap:12px;width:100%;margin-top:10px}
+.rcat .remo{font-size:1.4rem;flex:none}
+.rcat .rname{font-family:Georgia,serif;font-size:1.05rem;color:var(--ink)}
+.rcat .rdesc{font-size:.8rem;color:var(--ink-soft);margin-top:2px}
+.rcat .rcount{margin-left:auto;font-size:.76rem;color:var(--ink-soft);flex:none}
+.ritem{background:var(--card);border:none;border-radius:var(--radius);padding:15px 18px;cursor:pointer;text-align:left;box-shadow:0 1px 4px var(--shadow);width:100%;margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ritem .rtitle{font-family:Georgia,serif;font-size:1rem;color:var(--ink)}
+.ritem .rmin{font-size:.74rem;color:var(--ink-soft);margin-top:3px}
+.ritem .rdone{color:var(--gold);flex:none}
+.article{margin-top:6px}
+.article h2{font-family:Georgia,serif;font-weight:400;font-size:1.45rem;line-height:1.3;margin-top:4px}
+.article .ameta{font-size:.78rem;color:var(--ink-soft);margin:6px 0 16px}
+.article p{font-size:.98rem;line-height:1.7;margin-bottom:14px}
+.article .avquote{background:var(--card);border-left:3px solid var(--gold);border-radius:0 12px 12px 0;padding:14px 16px;margin:18px 0}
+.article .avquote .vt{font-family:Georgia,serif;font-size:1.02rem;line-height:1.6}
+.article .avquote .vr{font-size:.82rem;color:var(--ink-soft);font-style:italic;margin-top:6px}
+.article .aq{background:var(--card);border-radius:12px;padding:14px 16px;margin-top:14px;font-size:.93rem}
+.article .aq b, .article .apray b{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--deep);margin-bottom:5px}
+.article .apray{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px;font-size:.93rem;font-style:italic;color:var(--ink-soft)}
+.article .apray b{font-style:normal;color:var(--gold)}
+.readsintro{font-size:.9rem;color:var(--ink-soft);margin:10px 2px 4px;line-height:1.55}
 
 /* ask / chat */
 .chatwrap{display:flex;flex-direction:column;gap:10px;margin-top:12px;padding-bottom:84px}
@@ -824,6 +848,188 @@ const TOPICS = [
 ];
 const ASK_SUGGESTIONS = ["Forgiveness","Friendship","Prayer","Courage","Honesty","God\u2019s love","Who I am","Temptation"];
 
+
+// ============ READS (original devotionals) ============
+const READ_CATS = [
+ {id:"prayerlife",name:"Talking to God",emoji:"🙏",desc:"Prayer \u2014 the best part of all of this"},
+ {id:"faithschool",name:"Faith & School",emoji:"🎒",desc:"Living it out Monday through Friday"},
+ {id:"friends",name:"Friends & Drama",emoji:"💬",desc:"People are complicated"},
+ {id:"family",name:"Family",emoji:"🏠",desc:"The people who know you best"},
+ {id:"harddays",name:"Hard Days",emoji:"🌧",desc:"For when it\u2019s heavy"},
+ {id:"growing",name:"Growing Your Faith",emoji:"🌱",desc:"Making it your own"},
+ {id:"bigq",name:"Big Questions",emoji:"🔭",desc:"The stuff worth wondering about"}
+];
+const READS = [
+{id:"pr1",cat:"prayerlife",title:"Prayer Isn\u2019t a Performance",min:2,body:[
+"Two guys walk into the temple to pray. One delivers a polished speech about how impressive he is. The other can\u2019t even look up \u2014 he just says, \u201cGod, be merciful to me, a sinner.\u201d Jesus said the second guy went home right with God. The one with the worst prayer won.",
+"That should change everything about how you pray. God isn\u2019t grading your vocabulary. He\u2019s not comparing you to your pastor or checking whether you said it right. Jesus actually warned against \u201cheaping up empty phrases\u201d \u2014 fancy words for the sake of fancy words. Your Father, he said, already knows what you need before you ask.",
+"So why pray at all, if he already knows? Because prayer was never an information transfer. It\u2019s a relationship. When you tell a friend about your day, it\u2019s not because they need a report \u2014 it\u2019s because sharing life is what friendship is. God wants that with you. Messy sentences, half-finished thoughts, honest frustration \u2014 all of it counts.",
+"The best prayer you can pray today is the true one. Not the impressive one."],
+verse:{ref:"Matthew 6:8",text:"...your Father knows what you need before you ask him."},
+q:"If you dropped every \u201cchurchy\u201d word from your prayers, what would you actually say to God right now?",
+pray:"Try it before you close this: one minute, no fancy words. Just tell God the truest thing about your day."},
+{id:"pr2",cat:"prayerlife",title:"What Do I Even Say?",min:2,body:[
+"Staring at the ceiling, wanting to pray, not knowing where to start \u2014 everybody\u2019s been there. Here\u2019s the secret: there\u2019s no wrong door into a conversation with God. But if you want a simple path, try four moves.",
+"Thank him for something \u2014 anything. Today\u2019s win, this morning\u2019s breakfast, the friend who made you laugh. Gratitude warms up the conversation. Then be honest about what\u2019s hard \u2014 the worry, the grade, the person. Paul said to bring requests to God \u201cin everything,\u201d which means nothing is too small or too weird. Then ask for what you need \u2014 directly. God likes being asked. And finally, listen \u2014 sit quiet for thirty seconds. Prayer has two directions.",
+"Some days you\u2019ll pray paragraphs. Other days it\u2019s \u201cGod, help.\u201d Both are real prayers. David wrote long, beautiful psalms and also cried out one-liners while running for his life. The Bible kept both kinds, because God receives both kinds.",
+"You don\u2019t need to know what to say. You just need to show up and start."],
+verse:{ref:"Philippians 4:6",text:"Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God."},
+q:"Which of the four moves \u2014 thanking, being honest, asking, listening \u2014 do you skip most often?",
+pray:"Run the four moves right now: one thank-you, one honest thing, one ask, thirty seconds of quiet."},
+{id:"pr3",cat:"prayerlife",title:"When God Feels Quiet",min:2,body:[
+"Sometimes you pray and it feels like the ceiling is made of concrete. You ask, and nothing seems to change. If you\u2019ve felt that, you\u2019re in good company \u2014 David opened Psalm 13 with \u201cHow long, O LORD? Will you forget me forever?\u201d That\u2019s in the Bible. God kept it there on purpose.",
+"Here\u2019s what\u2019s worth knowing: silence is not absence. Some of God\u2019s biggest work happens in seasons where he seems quietest. Joseph spent years in a prison cell that looked like God had lost his address \u2014 while God was positioning him to save nations. You can\u2019t always see what he\u2019s building from inside the waiting.",
+"And notice what David did with his frustration: he told God about it. He didn\u2019t quit praying because prayer felt hard \u2014 he made the hardness the prayer. By the end of that same psalm, something shifted: \u201cBut I have trusted in your steadfast love.\u201d The circumstances hadn\u2019t changed yet. David had.",
+"Keep showing up. Quiet seasons end, and the people who kept talking to God through them come out knowing him deeper."],
+verse:{ref:"Psalm 13:1",text:"How long, O LORD? Will you forget me forever? How long will you hide your face from me?"},
+q:"What have you stopped praying about because it felt like nothing was happening?",
+pray:"Tell God honestly how the silence feels \u2014 David did. Then end the way he did: \u201cBut I trust your steadfast love.\u201d"},
+{id:"fs1",cat:"faithschool",title:"Faith in First Period",min:2,body:[
+"Jesus said you\u2019re the light of the world \u2014 and then added something practical: nobody lights a lamp and hides it under a basket. The question for a student isn\u2019t whether to bring your faith to school. It came with you. The question is whether it\u2019s under a basket.",
+"Here\u2019s the good news: shining doesn\u2019t mean preaching in the cafeteria. Jesus said people would see your good works \u2014 not hear your good speeches \u2014 and give glory to God. Light at school looks like being the person who doesn\u2019t pile on when someone\u2019s getting roasted. Telling the truth when a lie is easier. Sitting with the kid who\u2019s alone. Working hard on the group project when everyone else coasts.",
+"That kind of different gets noticed. Not always celebrated \u2014 sometimes questioned, occasionally mocked. But noticed. And over a school year, quiet consistency preaches louder than any lunchroom sermon could.",
+"You don\u2019t have to be the loudest Christian in the building. Just be the realest one."],
+verse:{ref:"Matthew 5:16",text:"In the same way, let your light shine before others, so that they may see your good works and give glory to your Father who is in heaven."},
+q:"What\u2019s one specific place at school where your light is currently under a basket?",
+pray:"Ask God to show you one person at school tomorrow who needs your kind of light \u2014 then ask for the courage to shine it."},
+{id:"fs2",cat:"faithschool",title:"The Pressure Is Real",min:2,body:[
+"Grades, tryouts, college talk, comparison \u2014 school can feel like a pressure cooker where your whole future rides on every quiz. Take a breath. God\u2019s word has a different frame for your work.",
+"Paul wrote, \u201cWhatever you do, work heartily, as for the Lord and not for men.\u201d Read that slowly: your real audience isn\u2019t the teacher, the scholarship committee, or the parents in the bleachers. It\u2019s the Lord. That changes two things. First, it means excellence matters \u2014 half-effort isn\u2019t how you work for a King. But second, it means your worth was never on the scoreboard. You work from acceptance, not for it.",
+"Do the studying. Give the effort. Then hand God the outcome \u2014 because after you\u2019ve done your part, the results were never fully in your hands anyway. Jesus asked a question worth memorizing for test week: which of you by being anxious can add a single hour to his life? Worry adds nothing. Prayer, sleep, and honest effort add plenty.",
+"Work hard. Trust harder."],
+verse:{ref:"Colossians 3:23",text:"Whatever you do, work heartily, as for the Lord and not for men."},
+q:"Are you working from acceptance or for it \u2014 and how can you tell the difference in your stress level?",
+pray:"Before your next big assignment or game, pray this: \u201cLord, this effort is for you. The outcome is yours too.\u201d"},
+{id:"fs3",cat:"faithschool",title:"\u201cWait, You Believe That?\u201d",min:2,body:[
+"Sooner or later it happens: someone finds out you\u2019re a Christian and asks why. Maybe curious, maybe testing you. Your mind goes blank. What now?",
+"Peter \u2014 who once denied Jesus three times when the pressure was on \u2014 later wrote the game plan: \u201cAlways be prepared to make a defense to anyone who asks you for a reason for the hope that is in you; yet do it with gentleness and respect.\u201d Notice what he didn\u2019t say: win the argument. Have a PhD answer. Convince them on the spot. Just be ready to explain your hope \u2014 gently.",
+"And here\u2019s what disarms almost everyone: your story. You don\u2019t need to solve every philosophy question to say \u201chere\u2019s what God has done in my life, and here\u2019s why I trust him.\u201d Nobody can argue with your story. If they ask something you can\u2019t answer, \u201cthat\u2019s a great question \u2014 let me think about it\u201d is a faithful response, not a failure.",
+"The pressure\u2019s off. You\u2019re a witness, not the lawyer. God handles the verdict."],
+verse:{ref:"1 Peter 3:15",text:"...always being prepared to make a defense to anyone who asks you for a reason for the hope that is in you; yet do it with gentleness and respect."},
+q:"If a friend asked you tomorrow why you believe, what one true sentence would you want to say?",
+pray:"Ask God to prepare you \u2014 not with a script, but with hope so real it\u2019s easy to talk about. And pray for the friend who might ask."},
+{id:"fr1",cat:"friends",title:"The Group Chat Went Bad",min:2,body:[
+"It starts as jokes. Then someone\u2019s not in the chat, and the jokes are about them. Screenshots fly. And you\u2019re sitting there with your thumb hovering, deciding who you\u2019re going to be.",
+"Paul\u2019s rule for words fits texting like it was written for it: \u201cLet no corrupting talk come out of your mouths, but only such as is good for building up.\u201d Two categories. Every message either corrupts or builds \u2014 tears at somebody or adds something good. There\u2019s no neutral pile-on.",
+"Here\u2019s the hard part: silence in the group chat feels safe, but Scripture calls gossip a fire, and standing by while a friend gets burned isn\u2019t peacemaking. You don\u2019t have to deliver a lecture. \u201cNah, they\u2019re actually cool\u201d or just changing the subject can redirect a whole conversation. One person going a different way gives everyone else permission to follow.",
+"And when in doubt, run the test: would you send it if the person could see it? Because the God who loves both of you already can."],
+verse:{ref:"Ephesians 4:29",text:"Let no corrupting talk come out of your mouths, but only such as is good for building up, as fits the occasion, that it may give grace to those who hear."},
+q:"Is there a chat or conversation where you\u2019ve been quietly going along with tearing someone down?",
+pray:"Ask God to make you quick to notice the moment a conversation turns \u2014 and brave enough to turn it back."},
+{id:"fr2",cat:"friends",title:"Choosing Your People",min:2,body:[
+"\u201cBad company ruins good morals.\u201d Paul wrote that to adults, but every student knows it\u2019s a hallway truth. Who you walk with shapes who you become \u2014 slowly, invisibly, and more powerfully than you think.",
+"Proverbs puts it positively: \u201cWhoever walks with the wise becomes wise.\u201d Friendship is direction, not just company. Your closest friends are quietly setting your defaults \u2014 how you talk, what you laugh at, what you think is normal, what you chase. So it\u2019s worth asking honestly: where are your people headed? Because you\u2019re headed there too.",
+"This isn\u2019t about only befriending church kids or dropping anyone who struggles \u2014 Jesus was famously good to people the religious crowd avoided. It\u2019s about your inner circle: the two or three voices with real access to your heart. Those seats matter. Fill them with people who make you braver, kinder, and closer to God \u2014 and be that person for them.",
+"You can be friendly with everyone. You can\u2019t be shaped by everyone. Choose the shapers."],
+verse:{ref:"Proverbs 13:20",text:"Whoever walks with the wise becomes wise, but the companion of fools will suffer harm."},
+q:"Think of your three closest friends: what direction are they pulling you, honestly?",
+pray:"Thank God for the friends who make you better \u2014 by name. Then ask him to help you be a direction-setter, not just a follower."},
+{id:"fr3",cat:"friends",title:"When You\u2019re the One Who Messed Up",min:2,body:[
+"Sometimes the drama is your fault. You said the thing, sent the text, told the secret. Now there\u2019s a wall between you and someone, and you built it. What does a person of faith do next?",
+"Jesus gave a startling answer: he said if you\u2019re at the altar \u2014 mid-worship! \u2014 and remember someone has something against you, leave, go make it right, then come back. Reconciliation is so important to God that he\u2019ll wait while you go fix it. Apologizing isn\u2019t the interruption to your spiritual life. Sometimes it is your spiritual life.",
+"A real apology has no \u201cbut\u201d in it. \u201cI\u2019m sorry, but you...\u201d isn\u2019t an apology; it\u2019s a rematch. Name what you did, own it fully, ask for forgiveness, and don\u2019t demand instant results \u2014 trust rebuilds on their timeline, not yours. Proverbs promises that whoever conceals their mess won\u2019t prosper, but the one who confesses finds mercy. That\u2019s true with God and usually true with people.",
+"Eating pride tastes terrible for about ten minutes. Carrying guilt lasts a lot longer. Go make it right."],
+verse:{ref:"Matthew 5:24",text:"...leave your gift there before the altar and go. First be reconciled to your brother, and then come and offer your gift."},
+q:"Is there an apology you\u2019ve been avoiding \u2014 and what\u2019s really stopping you?",
+pray:"Ask God for the humility to own your part with no \u201cbut\u201d \u2014 then ask him to soften the heart of the person you hurt."},
+{id:"fa1",cat:"family",title:"Parents Aren\u2019t the Enemy",min:2,body:[
+"\u201cHonor your father and mother\u201d is the first commandment with a promise attached \u2014 \u201cthat it may go well with you.\u201d God tied your good to how you treat your parents. That\u2019s worth sitting with, especially on the days they feel impossible.",
+"Honoring doesn\u2019t mean agreeing with every rule or pretending they\u2019re perfect. It means treating them with respect even mid-disagreement \u2014 tone, eye rolls, and all. Here\u2019s a secret about parents: respectful disagreement actually gets heard. \u201cCan I explain how I see it?\u201d opens doors that slammed ones never will.",
+"It helps to remember what you can\u2019t see yet: they\u2019re carrying things they\u2019ve never told you \u2014 work stress, money worries, their own fears about whether they\u2019re doing this right. Most parental \u201cno\u201ds are love wearing an annoying disguise. You won\u2019t fully believe that until you\u2019re older, which is exactly why God made it a commandment instead of a suggestion \u2014 he knew it wouldn\u2019t always feel true.",
+"Honor them on the easy days and the hard ones. It goes well for people who do."],
+verse:{ref:"Ephesians 6:2-3",text:"\u201cHonor your father and mother\u201d (this is the first commandment with a promise), \u201cthat it may go well with you and that you may live long in the land.\u201d"},
+q:"What does \u201chonor\u201d need to look like in your house this week \u2014 specifically?",
+pray:"Pray for your parents by name tonight \u2014 for what they\u2019re carrying that you can\u2019t see. It\u2019s hard to stay angry at someone you\u2019re praying for."},
+{id:"fa2",cat:"family",title:"Sibling Wars",min:2,body:[
+"Nobody can push your buttons like a sibling \u2014 they installed half of them. The Bible doesn\u2019t pretend family is easy; its very first brothers ended in tragedy, and Joseph\u2019s brothers sold him to slave traders. Scripture is realistic about sibling friction. It just refuses to leave you there.",
+"Paul\u2019s words fit the bedroom-wall battles perfectly: \u201cIf possible, so far as it depends on you, live peaceably with all.\u201d Notice the honesty \u2014 \u201cif possible\u201d and \u201cso far as it depends on you.\u201d You can\u2019t control your brother or sister. You control your half: your comebacks, your retaliation, your willingness to let a jab slide. Proverbs says it\u2019s a person\u2019s glory to overlook an offense. In sibling terms: not every annoying thing deserves a war.",
+"And here\u2019s the long view worth borrowing from every adult who has one: your sibling is the person who\u2019ll know your whole story longer than almost anyone alive. The relationship you\u2019re building \u2014 or burning \u2014 right now is the one you\u2019ll have at thirty.",
+"Play the long game. Be the peacemaker in the hallway."],
+verse:{ref:"Romans 12:18",text:"If possible, so far as it depends on you, live peaceably with all."},
+q:"What\u2019s the recurring fight in your house \u2014 and what\u2019s the part of it that depends on you?",
+pray:"Ask God to help you drop your half of the next fight \u2014 and thank him for one genuinely good thing about your sibling."},
+{id:"fa3",cat:"family",title:"When Home Is Hard",min:2,body:[
+"Some homes carry heavy things \u2014 arguing that doesn\u2019t stop, a parent who\u2019s absent or struggling, divorce, grief, or tension you can\u2019t name but can always feel. If that\u2019s your house, first hear this: none of it is a report card on you, and God is not far from it.",
+"David wrote, \u201cFor my father and my mother have forsaken me, but the LORD will take me in.\u201d Scripture looks family pain straight in the eye. God repeatedly introduces himself as \u201cfather of the fatherless\u201d and defender of the vulnerable \u2014 he leans toward hurting homes, not away from them. Whatever is unstable around you, he isn\u2019t.",
+"Two things you should do with a heavy home. Bring it to God nightly \u2014 honestly, angrily if needed; the Psalms prove he can take it. And bring it to a trusted adult too \u2014 a grandparent, counselor, youth leader, or teacher. Asking for help isn\u2019t betraying your family or your faith. God often answers prayers about hard homes through wise people.",
+"You are seen, you are taken in, and you are not carrying this alone."],
+verse:{ref:"Psalm 27:10",text:"For my father and my mother have forsaken me, but the LORD will take me in."},
+q:"What\u2019s the heavy thing at home you\u2019ve never actually said out loud to God \u2014 or to anyone?",
+pray:"Say it to God tonight, plainly. Then ask him to show you one trusted adult who should hear it too."},
+{id:"hd1",cat:"harddays",title:"When You Can\u2019t Feel God",min:2,body:[
+"Some mornings faith feels electric. Other mornings God feels about as real as a rumor. If your faith rides that rollercoaster, here\u2019s something that will steady you: feelings are real, but they aren\u2019t facts.",
+"Jeremiah wrote Lamentations from the rubble of a destroyed city \u2014 arguably the worst day in his nation\u2019s history. And right in the middle of describing his misery, he pivots: \u201cThe steadfast love of the LORD never ceases; his mercies never come to an end; they are new every morning.\u201d He didn\u2019t feel that. He chose to call it to mind \u2014 his words \u2014 like a man reciting facts to himself in a storm.",
+"That\u2019s the move: preach to your feelings instead of listening to them. God\u2019s love doesn\u2019t flicker when your emotions do. The sun doesn\u2019t stop existing on cloudy days; you just can\u2019t see it for a while. Keep praying on the numb days precisely because prayer doesn\u2019t depend on feeling it.",
+"Faithfulness on the flat days is still faith \u2014 some would say it\u2019s faith at its strongest."],
+verse:{ref:"Lamentations 3:22-23",text:"The steadfast love of the LORD never ceases; his mercies never come to an end; they are new every morning; great is your faithfulness."},
+q:"What true thing about God do you need to \u201ccall to mind\u201d on the days you can\u2019t feel him?",
+pray:"Pray even though it feels flat today \u2014 especially because it does. Tell God: \u201cI can\u2019t feel you right now, but I\u2019m choosing to trust that you\u2019re here.\u201d"},
+{id:"hd2",cat:"harddays",title:"One Day at a Time",min:2,body:[
+"Anxiety has a favorite trick: it makes you live every hard day of the next month all at once, today. The test next week, the conversation you\u2019re dreading, the what-ifs stacked to the ceiling \u2014 none of it has happened, and you\u2019re already exhausted by it.",
+"Jesus\u2019 counsel sounds almost too simple: \u201cDo not be anxious about tomorrow, for tomorrow will be anxious for itself. Sufficient for the day is its own trouble.\u201d He\u2019s not being dismissive \u2014 he\u2019s being precise. God gives strength the way he gave Israel manna in the desert: today\u2019s portion, every morning, never a week\u2019s supply in advance. When you try to carry Thursday on Monday, you\u2019re carrying it without Thursday\u2019s grace. Of course it feels crushing.",
+"So shrink the frame. What actually needs doing today? Do that. Pray about the rest and set it down \u2014 tomorrow\u2019s version of you will have tomorrow\u2019s manna. This is why Jesus taught us to pray for daily bread, not monthly reserves.",
+"You don\u2019t need strength for your whole future today. You need it for today. And that\u2019s exactly what\u2019s on offer."],
+verse:{ref:"Matthew 6:34",text:"Therefore do not be anxious about tomorrow, for tomorrow will be anxious for itself. Sufficient for the day is its own trouble."},
+q:"Which future day are you currently trying to live without its manna?",
+pray:"Hand God tomorrow \u2014 out loud, specifically. Then ask for exactly enough strength for what today actually holds."},
+{id:"hd3",cat:"harddays",title:"It\u2019s Okay to Not Be Okay",min:2,body:[
+"Somewhere along the way, a rumor started that strong Christians are always fine. Smile at church, say \u201cblessed\u201d when asked, keep the hard stuff hidden. One problem: Jesus never lived that way.",
+"The shortest verse in the Bible is \u201cJesus wept\u201d \u2014 at a funeral, in public, knowing he was about to raise Lazarus. In Gethsemane he told his best friends, \u201cMy soul is very sorrowful, even to death,\u201d and asked them to stay near. The strongest man who ever lived felt things fully and said so out loud. Pretending fine-ness isn\u2019t faith. It\u2019s just hiding.",
+"The Psalms make the same point in songbook form: roughly a third of them are laments \u2014 sacred complaints, tears set to music, questions with no neat answers. God put a crying section in his own hymnal. That means your sadness doesn\u2019t need cleaning up before it\u2019s allowed into prayer. \u201cThe LORD is near to the brokenhearted\u201d \u2014 near, not disappointed.",
+"So drop the mask with God first, and then with one safe person. Not-okay is a place Jesus is fully willing to meet you."],
+verse:{ref:"Psalm 34:18",text:"The LORD is near to the brokenhearted and saves the crushed in spirit."},
+q:"Where are you currently performing \u201cfine\u201d \u2014 and who is one safe person who could hear the real answer?",
+pray:"Pray a lament tonight: tell God exactly how not-okay it is, without softening it. He kept a whole book of these. Yours is welcome."},
+{id:"gr1",cat:"growing",title:"Tiny Habits, Big Faith",min:2,body:[
+"Nobody gets strong from one giant workout, and nobody grows deep faith from one emotional retreat weekend. Psalm 1 describes the person who flourishes: their delight is in God\u2019s word, and they meditate on it \u201cday and night.\u201d Not in heroic bursts \u2014 daily. Like a tree planted by streams of water, drinking a little constantly.",
+"Here\u2019s the freeing math of tiny habits: five minutes with God every day beats two hours once a month, and it isn\u2019t close. Read one chapter \u2014 or five verses. Pray on the bus. Memorize this week\u2019s verse while brushing your teeth. Open this app when a feeling hits instead of just scrolling past it. Small, repeated, real.",
+"The trick is attaching God-time to something you already do. After breakfast, before practice, lights-out \u2014 anchor it, and the habit builds itself. Miss a day? Fine. Trees don\u2019t die from one dry afternoon. Just come back tomorrow; the stream\u2019s still there.",
+"You\u2019re not behind. You\u2019re growing. Roots take time, and they\u2019re worth it \u2014 when heat comes, planted trees don\u2019t wither."],
+verse:{ref:"Psalm 1:2-3",text:"...but his delight is in the law of the LORD, and on his law he meditates day and night. He is like a tree planted by streams of water that yields its fruit in its season..."},
+q:"What existing daily routine could you attach five minutes with God to, starting tomorrow?",
+pray:"Ask God to help you want him daily, not just need him in emergencies. Then set your anchor: tell him when you\u2019ll meet him tomorrow."},
+{id:"gr2",cat:"growing",title:"Your Faith, Not Your Parents\u2019",min:2,body:[
+"Maybe you grew up in church, prayed the prayers, know the stories. Good \u2014 that\u2019s a gift. But at some point every kid raised around faith faces the question: is this mine, or am I just wearing my family\u2019s?",
+"Paul saw this handoff up close. He reminded young Timothy of the \u201csincere faith that dwelt first in your grandmother Lois and your mother Eunice and now, I am sure, dwells in you as well.\u201d Three generations \u2014 but notice: the faith had to dwell in Timothy. Grandma\u2019s faith couldn\u2019t be transferred like a hand-me-down jacket. He had to own it.",
+"Owning it starts with honest steps: pray when no one assigned it. Read Scripture to actually find out, not to check a box. Ask your real questions out loud \u2014 borrowed faith avoids questions; owned faith brings them to God. And watch for God moving in your own story, not just your parents\u2019 testimonies. \u201cTaste and see that the LORD is good\u201d is an invitation with your name on it.",
+"Secondhand faith gets you to church. Firsthand faith gets you through life. Go get yours."],
+verse:{ref:"2 Timothy 1:5",text:"I am reminded of your sincere faith, a faith that dwelt first in your grandmother Lois and your mother Eunice and now, I am sure, dwells in you as well."},
+q:"What\u2019s one part of your faith you believe because you\u2019ve tasted it \u2014 not just because you were told?",
+pray:"Pray something you\u2019ve never prayed before, in your own words: ask God to make this faith fully, personally yours."},
+{id:"gr3",cat:"growing",title:"Doubt Isn\u2019t the Enemy",min:2,body:[
+"A dad once brought his suffering son to Jesus and blurted out the most honest sentence in the Gospels: \u201cI believe; help my unbelief!\u201d Faith and doubt in the same breath \u2014 and Jesus didn\u2019t rebuke him. He healed his son.",
+"That should retire the fear that doubting disqualifies you. Thomas doubted the resurrection and Jesus didn\u2019t cancel him \u2014 he showed up, offered his scars, and let Thomas touch the evidence. What Jesus opposes isn\u2019t honest questions; it\u2019s never bringing them to him. Doubt handled alone hardens. Doubt brought into the light becomes the doorway to a sturdier faith.",
+"So do something with your questions. Write them down. Pray them \u2014 literally, \u201cGod, I don\u2019t get this; help me.\u201d Take them to someone further down the road: a parent, a youth leader, a pastor. Christianity has been fielding hard questions for two thousand years; yours will not break it. Seek, Jesus promised, and you will find \u2014 which assumes seekers start without all the answers.",
+"A faith that\u2019s never wrestled is untested. Wrestle honestly, in God\u2019s direction, and you\u2019ll walk away stronger \u2014 maybe with a limp, like Jacob, but blessed."],
+verse:{ref:"Mark 9:24",text:"Immediately the father of the child cried out and said, \u201cI believe; help my unbelief!\u201d"},
+q:"What\u2019s the question about God you\u2019ve been afraid to say out loud \u2014 and who could you bring it to this week?",
+pray:"Pray the father\u2019s prayer word-for-word tonight \u2014 \u201cI believe; help my unbelief\u201d \u2014 and then tell God your actual question."},
+{id:"bq1",cat:"bigq",title:"Why Does God Allow Bad Things?",min:3,body:[
+"This is the oldest, heaviest question there is, and anyone who hands you a tidy three-step answer is selling something. The Bible itself gives Job \u2014 the book devoted to this question \u2014 no explanation, only an encounter with God himself. So let\u2019s be honest about what we know and don\u2019t.",
+"We know this world is broken \u2014 running far from its original design, cracked by sin all the way down. Jesus promised plainly, \u201cIn the world you will have tribulation.\u201d Christianity never claims bad things won\u2019t happen; it claims something stranger: that God can weave even the worst things toward good for those who love him. Joseph said it to the brothers who sold him: \u201cYou meant evil against me, but God meant it for good.\u201d Not \u2014 it was secretly fine. Evil was evil. And God out-worked it.",
+"And here\u2019s the answer no other worldview offers: when God dealt with suffering, he didn\u2019t explain it from a distance \u2014 he entered it. The cross means God knows betrayal, injustice, torture, and death from the inside. Whatever you\u2019re asking \u201cwhy\u201d about, you\u2019re asking someone who has scars.",
+"You may not get the why in this life. You do get the Who \u2014 present in the pain, promising that one day he\u2019ll wipe every tear and make all things new. Take your why to him directly. He\u2019s heard it before, and he can hold it."],
+verse:{ref:"John 16:33",text:"I have said these things to you, that in me you may have peace. In the world you will have tribulation. But take heart; I have overcome the world."},
+q:"What \u201cwhy\u201d are you carrying right now \u2014 and have you ever actually asked God the question instead of just carrying it?",
+pray:"Ask God your hardest why tonight, out loud, unedited. Job did. The psalmists did. He would rather have your angry questions than your polite distance."},
+{id:"bq2",cat:"bigq",title:"How Do I Know God Is Real?",min:2,body:[
+"You can\u2019t put God under a microscope \u2014 but that\u2019s not the only kind of knowing there is. You can\u2019t microscope love or justice either, and you\u2019d bet your life they\u2019re real. So where do you look?",
+"Look up, first. \u201cThe heavens declare the glory of God\u201d \u2014 a universe fine-tuned with staggering precision, beauty that serves no survival purpose, and the sheer oddity that anything exists at all. Creation doesn\u2019t prove God like a math problem; it points like a signpost. Look at history, second: a carpenter from Nazareth whose life split time in two, whose tomb his enemies couldn\u2019t produce a body for, whose terrified followers became unstoppable overnight. Something happened.",
+"Then do what the psalmist dares you to do: \u201cTaste and see that the LORD is good.\u201d Faith isn\u2019t believing without evidence; it\u2019s trusting enough to test the invitation. Pray honestly for a month. Read one Gospel with an open mind. Watch what happens in you. Jeremiah carries God\u2019s own promise: \u201cYou will seek me and find me, when you seek me with all your heart.\u201d",
+"The evidence for God isn\u2019t just out there in the stars. It\u2019s waiting in the seeking."],
+verse:{ref:"Psalm 34:8",text:"Oh, taste and see that the LORD is good! Blessed is the man who takes refuge in him!"},
+q:"Have you ever honestly run the \u201ctaste and see\u201d experiment \u2014 or only debated God from a distance?",
+pray:"Pray a seeker\u2019s prayer, even if it feels strange: \u201cGod, if you\u2019re real, show me. I\u2019m genuinely looking.\u201d He honors that prayer \u2014 he promised."},
+{id:"bq3",cat:"bigq",title:"What\u2019s God\u2019s Will for My Life?",min:2,body:[
+"College, career, who to date, where to live \u2014 \u201cGod\u2019s will\u201d can feel like a hidden treasure map where one wrong step ruins everything. Breathe. Scripture paints it very differently.",
+"Here\u2019s the surprise: most of God\u2019s will for you is already published. \u201cRejoice always, pray without ceasing, give thanks in all circumstances; for this is the will of God in Christ Jesus for you.\u201d There it is, in writing. Add Micah\u2019s summary \u2014 do justice, love kindness, walk humbly with your God \u2014 and you have most of the map. God\u2019s will is less about decoding which college and more about who you\u2019re becoming on the way to any of them.",
+"For the genuine forks in the road, you\u2019re not left guessing: ask for wisdom \u2014 James says God gives it generously without scolding you for needing it. Get counsel from people who love God and love you. Then here\u2019s the freeing part: choose. A person praying, seeking wisdom, and walking humbly can pick a direction trusting that \u201cthe heart of man plans his way, but the LORD establishes his steps.\u201d God is quite capable of steering a moving ship \u2014 and redirecting one.",
+"Stop hunting for the hidden will and start living the revealed one. The path tends to appear under obedient feet."],
+verse:{ref:"1 Thessalonians 5:16-18",text:"Rejoice always, pray without ceasing, give thanks in all circumstances; for this is the will of God in Christ Jesus for you."},
+q:"Are you using \u201cfinding God\u2019s will\u201d as a reason to wait \u2014 when the revealed part is sitting there undone?",
+pray:"Pray without ceasing starts now: talk to God about the decision you\u2019re facing, do it again tomorrow, and keep the conversation running all day. That constant conversation IS walking in his will."}
+];
+
 // ============ STORAGE (safe wrapper) ============
 const mem = {};
 const S = {
@@ -846,7 +1052,8 @@ const ICONS = {
  book:'<path d="M12 6c-2-1.8-5-2-8-1.4V19c3-.6 6-.4 8 1.4 2-1.8 5-2 8-1.4V4.6C17 4 14 4.2 12 6zM12 6v14.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
  pen:'<path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19l-4 1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
  chat:'<path d="M21 12a8 8 0 0 1-8 8c-1.2 0-2.4-.25-3.4-.7L4 21l1.7-4.3A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9" cy="12" r="1" fill="currentColor"/><circle cx="13" cy="12" r="1" fill="currentColor"/><circle cx="17" cy="12" r="1" fill="currentColor"/>',
- shareic:'<path d="M12 3.5v11M12 3.5l-3.8 3.8M12 3.5l3.8 3.8M5 12.5v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'
+ shareic:'<path d="M12 3.5v11M12 3.5l-3.8 3.8M12 3.5l3.8 3.8M5 12.5v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+ page:'<path d="M7 3h7l4 4v14H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM14 3v4h4M9.5 12h5M9.5 15.5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'
 };
 function svg(name){ return '<svg viewBox="0 0 24 24" aria-hidden="true">'+ICONS[name]+'</svg>'; }
 function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -880,6 +1087,14 @@ function getWeeklyVerse(){
   const counts = visits[prevWeekKey()] || visits[wk] || {};
   let topEmotion = null, top = 0;
   for(const [k,v] of Object.entries(counts)){ if(v > top){ top = v; topEmotion = k; } }
+  const q = S.get('memqueue', []);
+  if(q.length){
+    const pick = q.shift();
+    S.set('memqueue', q);
+    cur = { week: wk, ref: pick.ref, text: pick.text, source: 'chosen' };
+    S.set('memverse', cur);
+    return cur;
+  }
   const lastRef = cur ? cur.ref : '';
   let pool, source;
   if(topEmotion && MEMORY_POOLS[topEmotion]){
@@ -907,7 +1122,7 @@ function practiceText(text, mode){
 }
 
 // ============ STATE & ROUTER ============
-let state = { screen:'home', emotionId:null, subId:null, practice:0, editJ:null };
+let state = { screen:'home', emotionId:null, subId:null, practice:0, editJ:null, readCat:null, readId:null };
 function go(s){ Object.assign(state, s); render(); window.scrollTo(0,0); }
 function currentEmotion(){ return DATA.find(e=>e.id===state.emotionId); }
 function currentSub(){ const e = currentEmotion(); return e ? e.subs.find(s=>s.id===state.subId) : null; }
@@ -935,6 +1150,13 @@ async function shareVerse(text, ref){
 }
 function findPassage(id){
   const [eId, sId, ref] = id.split('|');
+  if(eId === 'read'){
+    const r = READS.find(x => x.id === sId); if(!r) return null;
+    if(r.verse.ref !== ref) return null;
+    return { ref: r.verse.ref, text: r.verse.text,
+      why: 'From the read \u201c'+r.title+'\u201d', pray: r.pray,
+      emotion: {id:'read'}, sub: {id: r.id} };
+  }
   const e = DATA.find(x=>x.id===eId); if(!e) return null;
   const s = e.subs.find(x=>x.id===sId); if(!s) return null;
   const p = s.passages.find(x=>x.ref===ref); if(!p) return null;
@@ -949,25 +1171,40 @@ function setMemVerse(ref, text){
   S.set('memverse', { week: wk, ref, text, source: 'chosen' });
   render(); window.scrollTo(0,0);
 }
+function inQueue(ref){ return S.get('memqueue', []).some(v => v.ref === ref); }
+function queueMemVerse(ref, text){
+  const q = S.get('memqueue', []);
+  if(!q.some(v => v.ref === ref)){ q.push({ref, text}); S.set('memqueue', q); }
+  render();
+}
+function unqueueMemVerse(ref){
+  S.set('memqueue', S.get('memqueue', []).filter(v => v.ref !== ref));
+  render();
+}
+function memControls(ref, text, on){
+  if(!on) return '';
+  const mv = S.get('memverse', null);
+  if(mv && mv.ref === ref){
+    return '<div style="margin-top:12px"><span class="chip" style="cursor:default;color:var(--gold);border-color:var(--gold)">\u2713 This week\u2019s memory verse</span></div>';
+  }
+  if(inQueue(ref)){
+    return '<div style="margin-top:12px"><button class="chip" data-r="'+esc(ref)+'" onclick="unqueueMemVerse(this.dataset.r)">\u2713 Queued for an upcoming week \u2014 tap to remove</button></div>';
+  }
+  return '<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">'
+    + '<button class="chip" data-r="'+esc(ref)+'" data-t="'+esc(text)+'" onclick="setMemVerse(this.dataset.r, this.dataset.t)">\u2606 Memory verse this week</button>'
+    + '<button class="chip" data-r="'+esc(ref)+'" data-t="'+esc(text)+'" onclick="queueMemVerse(this.dataset.r, this.dataset.t)">\uFF0B Queue for a later week</button></div>';
+}
 function passageCard(p, eId, sId){
   const id = favId(eId, sId, p.ref);
   const on = isFav(id);
-  const mv = S.get('memverse', null);
-  const isMem = mv && mv.ref === p.ref;
-  let memBtn = '';
-  if(on){
-    memBtn = isMem
-      ? '<div style="margin-top:12px"><span class="chip" style="cursor:default;color:var(--gold);border-color:var(--gold)">\u2713 This week\u2019s memory verse</span></div>'
-      : '<div style="margin-top:12px"><button class="chip" onclick="setMemVerse(\''+p.ref.replace(/'/g,"\\'")+'\', this.dataset.t)" data-t="'+esc(p.text)+'">\u2606 Make this my memory verse</button></div>';
-  }
   return '<div class="pcard">'
     + '<div class="vtext">'+esc(p.text)+'</div>'
-    + '<div class="vref"><span>— '+esc(p.ref)+' (ESV)</span><span class="acts">'
+    + '<div class="vref"><span>\u2014 '+esc(p.ref)+' (ESV)</span><span class="acts">'
     + '<button class="share" aria-label="Share verse" data-t="'+esc(p.text)+'" data-r="'+esc(p.ref)+'" onclick="shareVerse(this.dataset.t, this.dataset.r)">'+svg('shareic')+'</button>'
-    + '<button class="fav'+(on?' on':'')+(lastFavPop===id?' pop':'')+'" aria-label="'+(on?'Remove from favorites':'Save to favorites')+'" onclick="toggleFav(\''+id+'\')">'+(on?'★':'☆')+'</button></span></div>'
+    + '<button class="fav'+(on?' on':'')+(lastFavPop===id?' pop':'')+'" aria-label="'+(on?'Remove from favorites':'Save to favorites')+'" onclick="toggleFav(\''+id+'\')">'+(on?'\u2605':'\u2606')+'</button></span></div>'
     + '<div class="why"><b>Why this verse</b>'+esc(p.why)+'</div>'
     + '<div class="pray"><b>Pray it</b>'+esc(p.pray)+'</div>'
-    + memBtn
+    + memControls(p.ref, p.text, on)
     + '</div>';
 }
 
@@ -977,7 +1214,7 @@ function renderHome(){
   const hr = new Date().getHours();
   const greet = hr < 12 ? 'Good morning' : hr < 17 ? 'Good afternoon' : 'Good evening';
   const modes = ['Full verse','Hide some','Hide all'];
-  let html = '<div class="top"><div style="width:100%;text-align:center"><h1>At All Times</h1>'
+  let html = '<div class="top"><div style="width:100%;text-align:center"><h1>Rooted</h1>'
     + '<div class="sub serif" style="margin-top:6px;font-style:italic;line-height:1.5">\u201cTrust in him at all times...\u201d \u2014 Psalm 62:8</div>'
     + '</div></div>';
   html += '<div class="greet">'+greet+'</div>';
@@ -990,7 +1227,15 @@ function renderHome(){
     + '<div class="tools">'
     + modes.map((m,i)=>'<button class="chip'+(state.practice===i?' active':'')+'" onclick="go({practice:'+i+'})">'+m+'</button>').join('')
     + '</div>'
-    + '<div class="hint">Try to say it from memory a little each day this week.</div></div>';
+    + '<div class="hint">Try to say it from memory a little each day this week.</div>'
+    + (function(){
+        const q = S.get('memqueue', []);
+        if(!q.length) return '';
+        return '<div class="hint" style="margin-top:10px">Up next:</div><div class="chips" style="margin-top:6px">'
+          + q.map(v => '<button class="chip" data-r="'+esc(v.ref)+'" onclick="unqueueMemVerse(this.dataset.r)" title="Tap to remove">'+esc(v.ref)+' \u2715</button>').join('')
+          + '</div>';
+      })()
+    + '</div>';
   html += '<div class="sechead serif" style="margin-top:6px;font-size:1.25rem;letter-spacing:0;text-transform:none;color:var(--ink);font-weight:400">How are you feeling?</div>';
   const tile = e =>
     '<button class="etile" onclick="openEmotion(\''+e.id+'\')">'
@@ -1112,7 +1357,7 @@ function renderJournal(){
 
 function exportBackup(){
   const data = {
-    app: 'at-all-times', version: 1, exported: new Date().toISOString(),
+    app: 'rooted', version: 1, exported: new Date().toISOString(),
     journal: S.get('journal', []),
     favs: S.get('favs', []),
     memverse: S.get('memverse', null),
@@ -1121,7 +1366,7 @@ function exportBackup(){
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'at-all-times-backup-' + new Date().toISOString().slice(0,10) + '.json';
+  a.download = 'rooted-backup-' + new Date().toISOString().slice(0,10) + '.json';
   document.body.appendChild(a); a.click();
   setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 500);
 }
@@ -1132,7 +1377,7 @@ function importBackup(input){
   reader.onload = () => {
     try{
       const data = JSON.parse(reader.result);
-      if(data.app !== 'at-all-times') throw new Error('wrong file');
+      if(data.app !== 'rooted' && data.app !== 'at-all-times') throw new Error('wrong file');
       const n = (data.journal||[]).length, f = (data.favs||[]).length;
       if(!confirm('Restore backup from ' + (data.exported ? data.exported.slice(0,10) : 'unknown date') + '? This will replace what’s on this phone (' + n + ' journal entries, ' + f + ' saved verses).')) { input.value=''; return; }
       if(Array.isArray(data.journal)) S.set('journal', data.journal);
@@ -1144,7 +1389,7 @@ function importBackup(input){
       alert('Backup restored!');
     }catch(e){
       input.value = '';
-      alert('That doesn’t look like an At All Times backup file.');
+      alert('That doesn’t look like a Rooted backup file.');
     }
   };
   reader.readAsText(file);
@@ -1191,12 +1436,74 @@ function renderNav(){
   const tabs = [
     {id:'home', label:'Verses', icon:'book', screens:['home','subs','passages']},
     {id:'ask', label:'Ask', icon:'chat', screens:['ask']},
+    {id:'reads', label:'Reads', icon:'page', screens:['reads','readlist','read']},
     {id:'favorites', label:'Saved', icon:'star', screens:['favorites']},
     {id:'journal', label:'Journal', icon:'pen', screens:['journal']}
   ];
   document.getElementById('nav').innerHTML = tabs.map(t =>
     '<button class="'+(t.screens.includes(state.screen)?'active':'')+'" onclick="go({screen:\''+t.id+'\'})">'
     + svg(t.icon) + t.label + '</button>').join('');
+}
+
+function markRead(id){
+  const done = S.get('readsDone', []);
+  if(!done.includes(id)){ done.push(id); S.set('readsDone', done); }
+}
+function renderReads(){
+  setTint(null);
+  let html = '<div class="top"><div><h1 style="font-size:2rem">Reads</h1><div class="sub">Short reads for real life</div></div></div>';
+  html += '<div class="readsintro">Two-minute reads that end where the best ones always do \u2014 in a conversation with God. Read one, then take a minute to pray it through.</div>';
+  const done = S.get('readsDone', []);
+  html += READ_CATS.map(c => {
+    const reads = READS.filter(r => r.cat === c.id);
+    const doneCount = reads.filter(r => done.includes(r.id)).length;
+    return '<button class="rcat" onclick="go({screen:\'readlist\', readCat:\''+c.id+'\'})">'
+      + '<span class="remo">'+c.emoji+'</span>'
+      + '<span><span class="rname">'+esc(c.name)+'</span><div class="rdesc">'+esc(c.desc)+'</div></span>'
+      + '<span class="rcount">'+doneCount+'/'+reads.length+'</span></button>';
+  }).join('');
+  html += footer();
+  app.innerHTML = html;
+}
+function renderReadList(){
+  const c = READ_CATS.find(x => x.id === state.readCat);
+  if(!c){ go({screen:'reads'}); return; }
+  setTint(null);
+  const done = S.get('readsDone', []);
+  let html = '<div class="top"><button class="back" onclick="go({screen:\'reads\'})" aria-label="Back">\u2190</button>'
+    + '<div><div class="crumb">Reads</div><div class="page-title">'+c.emoji+' '+esc(c.name)+'</div></div></div>';
+  html += READS.filter(r => r.cat === c.id).map(r =>
+    '<button class="ritem" onclick="go({screen:\'read\', readId:\''+r.id+'\'})">'
+    + '<span><span class="rtitle">'+esc(r.title)+'</span><div class="rmin">'+r.min+' min read</div></span>'
+    + (done.includes(r.id) ? '<span class="rdone">\u2713</span>' : '')
+    + '</button>').join('');
+  html += footer();
+  app.innerHTML = html;
+}
+function renderRead(){
+  const r = READS.find(x => x.id === state.readId);
+  if(!r){ go({screen:'reads'}); return; }
+  const c = READ_CATS.find(x => x.id === r.cat);
+  setTint(null);
+  markRead(r.id);
+  let html = '<div class="top"><button class="back" onclick="go({screen:\'readlist\', readCat:\''+r.cat+'\'})" aria-label="Back">\u2190</button>'
+    + '<div><div class="crumb">'+esc(c.name)+'</div></div></div>';
+  html += '<div class="article"><h2>'+esc(r.title)+'</h2>'
+    + '<div class="ameta">'+r.min+' min read</div>';
+  html += r.body.map(p => '<p>'+esc(p)+'</p>').join('');
+  const vfid = favId('read', r.id, r.verse.ref);
+  const von = isFav(vfid);
+  html += '<div class="avquote"><div class="vt">'+esc(r.verse.text)+'</div>'
+    + '<div class="vr" style="display:flex;justify-content:space-between;align-items:center"><span>\u2014 '+esc(r.verse.ref)+' (ESV)</span><span class="acts">'
+    + '<button class="share" aria-label="Share verse" data-t="'+esc(r.verse.text)+'" data-r="'+esc(r.verse.ref)+'" onclick="shareVerse(this.dataset.t, this.dataset.r)">'+svg('shareic')+'</button>'
+    + '<button class="fav'+(von?' on':'')+(lastFavPop===vfid?' pop':'')+'" aria-label="'+(von?'Remove from favorites':'Save to favorites')+'" onclick="toggleFav(\''+vfid+'\')">'+(von?'\u2605':'\u2606')+'</button></span></div>'
+    + memControls(r.verse.ref, r.verse.text, von)
+    + '</div>';
+  html += '<div class="aq"><b>Chew on this</b>'+esc(r.q)+'</div>';
+  html += '<div class="apray"><b>🙏 Take it to God</b>'+esc(r.pray)+'</div>';
+  html += '</div>';
+  html += footer();
+  app.innerHTML = html;
 }
 
 let CHAT = S.get('chatlog', []);
@@ -1324,6 +1631,9 @@ function render(){
   else if(state.screen==='subs') renderSubs();
   else if(state.screen==='passages') renderPassages();
   else if(state.screen==='ask') renderAsk();
+  else if(state.screen==='reads') renderReads();
+  else if(state.screen==='readlist') renderReadList();
+  else if(state.screen==='read') renderRead();
   else if(state.screen==='favorites') renderFavorites();
   else if(state.screen==='journal') renderJournal();
   renderNav();
