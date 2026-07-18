@@ -1122,7 +1122,7 @@ function practiceText(text, mode){
 }
 
 // ============ STATE & ROUTER ============
-let state = { screen:'home', emotionId:null, subId:null, practice:0, editJ:null, readCat:null, readId:null, queueOpen:false };
+let state = { screen:'home', emotionId:null, subId:null, practice:0, editJ:null, readCat:null, readId:null, queueOpen:false, nameOpen:false };
 function go(s){ Object.assign(state, s); render(); window.scrollTo(0,0); }
 function currentEmotion(){ return DATA.find(e=>e.id===state.emotionId); }
 function currentSub(){ const e = currentEmotion(); return e ? e.subs.find(s=>s.id===state.subId) : null; }
@@ -1218,7 +1218,22 @@ function renderHome(){
     + '<div class="sub" style="margin-top:8px;font-size:.95rem;color:var(--ink);font-weight:500;line-height:1.25">God\u2019s word for every moment.</div>'
     + '<div class="sub" style="margin-top:0;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;line-height:1.4">Grow deep. Stand strong.</div>'
     + '</div></div>';
-  html += '<div class="greet">'+greet+'</div>';
+  const uname = S.get('username', null);
+  const skippedAt = S.get('nameSkippedAt', 0);
+  const askName = state.nameOpen || (!uname && (Date.now() - skippedAt > 7*24*60*60*1000));
+  if(askName){
+    html += '<div class="greet" style="margin-bottom:4px">'+greet+'! What should we call you?</div>'
+      + '<div style="display:flex;gap:8px;justify-content:center;margin-top:6px">'
+      + '<input id="namein" type="text" maxlength="20" placeholder="Your name" value="'+esc(uname||'')+'" '
+      + 'style="border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:.95rem;background:var(--card);color:var(--ink);width:150px;outline:none" '
+      + 'onkeydown="if(event.key===\'Enter\')saveName()">'
+      + '<button class="chip" onclick="saveName()">Save</button>'
+      + '<button class="chip" onclick="skipName()">Skip</button></div>';
+  } else {
+    html += '<button class="greet" style="border:none;background:none;cursor:pointer;font:inherit;color:inherit;display:block;margin-left:auto;margin-right:auto" '
+      + 'title="Tap to change your name" onclick="go({nameOpen:true})">'
+      + greet + (uname ? ', '+esc(uname) : '') + '</button>';
+  }
   html += '<div class="mem"><div class="label">This week\u2019s memory verse'
     + (v.source === 'chosen' ? ' \u00b7 your pick' : (v.source ? ' \u00b7 for when you\u2019ve felt '+esc(v.source) : ''))
     + '</div>'
@@ -1263,6 +1278,16 @@ function renderHome(){
   app.innerHTML = html;
 }
 function dismissHint(){ S.set('hintDismissed', true); render(); }
+function saveName(){
+  const el = document.getElementById('namein');
+  const n = (el && el.value || '').trim().slice(0, 20);
+  if(n) S.set('username', n);
+  go({nameOpen:false});
+}
+function skipName(){
+  S.set('nameSkippedAt', Date.now());
+  go({nameOpen:false});
+}
 function openEmotion(id){ trackVisit(id); go({screen:'subs', emotionId:id}); }
 
 function renderSubs(){
@@ -1307,8 +1332,24 @@ function renderFavorites(){
 
 let JMOOD = null;
 let EMOOD = null;
+const JOURNAL_MOODS = [
+  {emoji:'\u{1F60A}', name:'Happy'},
+  {emoji:'\u{1F970}', name:'Loved'},
+  {emoji:'\u{1F60E}', name:'Confident'},
+  {emoji:'\u{1F305}', name:'Hopeful'},
+  {emoji:'\u{1F64F}', name:'Grateful'},
+  {emoji:'\u{1F60C}', name:'Peaceful'},
+  {emoji:'\u{1F929}', name:'Excited'},
+  {emoji:'\u{1F622}', name:'Sad'},
+  {emoji:'\u{1F630}', name:'Anxious'},
+  {emoji:'\u{1F620}', name:'Angry'},
+  {emoji:'\u{1F614}', name:'Guilty'},
+  {emoji:'\u{1F97A}', name:'Lonely'},
+  {emoji:'\u{1F629}', name:'Overwhelmed'},
+  {emoji:'\u{1F615}', name:'Confused'}
+];
 function moodChips(sel, handler, extraClass){
-  return '<div class="jtags">' + DATA.map(e =>
+  return '<div class="jtags">' + JOURNAL_MOODS.map(e =>
     '<button class="jtag'+(extraClass?' '+extraClass:'')+(sel===e.emoji?' sel':'')+'" title="'+e.name+'" onclick="'+handler+'(this, \''+e.emoji+'\')">'+e.emoji+'</button>').join('') + '</div>';
 }
 function pickMood(el, emo){
@@ -1366,7 +1407,8 @@ function exportBackup(){
     journal: S.get('journal', []),
     favs: S.get('favs', []),
     memverse: S.get('memverse', null),
-    visits: S.get('visits', {})
+    visits: S.get('visits', {}),
+    username: S.get('username', null)
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
@@ -1389,6 +1431,7 @@ function importBackup(input){
       if(Array.isArray(data.favs)) S.set('favs', data.favs);
       if(data.memverse) S.set('memverse', data.memverse);
       if(data.visits && typeof data.visits === 'object') S.set('visits', data.visits);
+      if(typeof data.username === 'string' && data.username) S.set('username', data.username);
       input.value = '';
       render();
       alert('Backup restored!');
