@@ -207,6 +207,16 @@ textarea:focus{outline:2px solid var(--sage);border-color:transparent}
 .ansnote b{display:block;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:3px}
 .prayact{border:none;background:none;color:var(--deep);font-size:.76rem;font-weight:600;cursor:pointer;padding:2px 4px}
 .grouphead{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:22px 0 2px}
+.installbox{border:1px solid var(--line);border-radius:12px;background:var(--card);margin-top:12px;overflow:hidden}
+.installbox>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:700;font-size:.95rem;color:var(--deep);display:flex;align-items:center;justify-content:space-between}
+.installbox>summary::-webkit-details-marker{display:none}
+.installbox>summary .chev{transition:transform .2s;color:var(--ink-soft)}
+.installbox[open]>summary .chev{transform:rotate(180deg)}
+.installbody{padding:2px 16px 16px}
+.installbody h4{margin:14px 0 6px;font-size:.86rem;color:var(--ink)}
+.installbody ol{margin:0;padding-left:20px}
+.installbody li{font-size:.9rem;margin:5px 0;line-height:1.5}
+.installbody .note{font-size:.82rem;color:var(--ink-soft);margin-top:10px}
 .viewall{border:1px dashed var(--line);background:none;color:var(--ink-soft);border-radius:999px;padding:7px 14px;font-size:.8rem;cursor:pointer;margin-top:12px}
 .taginput{width:100%;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:.9rem;background:var(--card);color:var(--ink);outline:none;margin-top:10px}
 .taginput:focus{outline:2px solid var(--sage);border-color:transparent}
@@ -1401,7 +1411,7 @@ function renderHome(){
   html += '<div class="grid" style="margin-top:8px">' + up.map(tile).join('') + '</div>';
   const standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone;
   if(!standalone && !S.get('hintDismissed', false)){
-    html += '<div class="banner"><div><b>Make this an app on your home screen:</b> open the url in Safari (iPhone) and tap Share, then \u201cAdd to Home Screen\u201d \u2014 or in Chrome (Android), tap the menu (\u22ee), then \u201cAdd to Home screen\u201d. It will work offline and keep your prayers safe.</div>'
+    html += '<div class="banner"><div><b>Add Rooted to your home screen</b> for its own icon and offline access. On iPhone, open it in any browser, tap Share, then \u201cAdd to Home Screen.\u201d Full steps are under \u201cGet the app\u201d on the Saved tab.</div>'
       + '<button class="x" onclick="dismissHint()" aria-label="Dismiss">\u2715</button></div>';
   }
   html += footer();
@@ -1456,6 +1466,38 @@ function renderFavorites(){
   } else {
     html += favs.map(p => passageCard(p, p.emotion.id, p.sub.id)).join('');
   }
+  // Back up & restore (moved here from Prayers)
+  html += '<div class="sechead" style="margin-top:34px">Back up &amp; restore</div>'
+    + '<div class="pcard" style="border-left-color:var(--sage)">'
+    + '<div class="why" style="margin-top:0">Everything in this app (prayers, saved verses, memory verse) lives only on this phone. Save a backup file every so often — you can restore it here anytime, even on a new phone.</div>'
+    + '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">'
+    + '<button class="chip" onclick="exportBackup()">\u2b07 Save backup file</button>'
+    + '<button class="chip" onclick="document.getElementById(\'importfile\').click()">\u2b06 Restore from backup</button>'
+    + '</div>'
+    + '<input type="file" id="importfile" accept=".json,application/json" style="display:none" onchange="importBackup(this)">'
+    + '</div>';
+  // Collapsible: add to home screen
+  html += '<div class="sechead" style="margin-top:28px">Get the app</div>'
+    + '<details class="installbox">'
+    + '<summary>\u{1F4F1} Add Rooted to your home screen<span class="chev">\u25BE</span></summary>'
+    + '<div class="installbody">'
+    + '<div class="why" style="margin-top:8px">Adding Rooted to your home screen gives it its own icon, opens it full-screen like a real app, and lets it work offline.</div>'
+    + '<h4>On iPhone or iPad</h4>'
+    + '<ol>'
+    + '<li>Open Rooted in any browser (Safari, Chrome, or whatever you use).</li>'
+    + '<li>Tap the <b>Share</b> button (the square with an arrow pointing up).</li>'
+    + '<li>Scroll down and tap <b>Add to Home Screen</b>.</li>'
+    + '<li>Tap <b>Add</b> in the top corner. The icon will appear on your home screen.</li>'
+    + '</ol>'
+    + '<h4>On Android</h4>'
+    + '<ol>'
+    + '<li>Open Rooted in Chrome.</li>'
+    + '<li>Tap the <b>menu</b> (the three dots in the corner).</li>'
+    + '<li>Tap <b>Add to Home screen</b> (or <b>Install app</b>).</li>'
+    + '<li>Confirm, and the icon will appear on your home screen.</li>'
+    + '</ol>'
+    + '<div class="note">Once it\u2019s on your home screen, open it from that icon so it stays updated and works without a connection.</div>'
+    + '</div></details>';
   html += footer();
   app.innerHTML = html;
 }
@@ -1637,15 +1679,6 @@ function renderJournal(){
   html += '<textarea id="jtext" style="margin-top:12px" placeholder="'+(kind==='self'?'What do you want to bring to God?':'Who are you lifting up (tag their name above), and what for?')+'">'+esc(PRAYDRAFT)+'</textarea>';
   html += '<button class="btn" onclick="addPrayer()">Add prayer</button>';
   html += renderPrayerGroup(kind);
-  html += '<div class="sechead" style="margin-top:34px">Back up &amp; restore</div>'
-    + '<div class="pcard" style="border-left-color:var(--sage)">'
-    + '<div class="why" style="margin-top:0">Everything in this app (prayers, saved verses, memory verse) lives only on this phone. Save a backup file every so often — you can restore it here anytime, even on a new phone.</div>'
-    + '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">'
-    + '<button class="chip" onclick="exportBackup()">⬇ Save backup file</button>'
-    + '<button class="chip" onclick="document.getElementById(\'importfile\').click()">⬆ Restore from backup</button>'
-    + '</div>'
-    + '<input type="file" id="importfile" accept=".json,application/json" style="display:none" onchange="importBackup(this)">'
-    + '</div>';
   html += footer();
   app.innerHTML = html;
 }
