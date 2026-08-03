@@ -1,4 +1,4 @@
-const CACHE = 'rooted-v19';
+const CACHE = 'rooted-v24';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
@@ -12,8 +12,27 @@ self.addEventListener('activate', e => {
   );
 });
 
+// Network-first for navigations/HTML so the app updates as soon as the phone is online;
+// falls back to cache when offline. Other assets stay cache-first for speed.
 self.addEventListener('fetch', e => {
+  const req = e.request;
+  const isHTML = req.mode === 'navigate' ||
+    (req.headers.get('accept') || '').includes('text/html');
+
+  if (isHTML) {
+    e.respondWith(
+      fetch(req)
+        .then(res => {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put('./index.html', copy));
+          return res;
+        })
+        .catch(() => caches.match('./index.html').then(r => r || caches.match('./')))
+    );
+    return;
+  }
+
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request))
+    caches.match(req).then(cached => cached || fetch(req))
   );
 });

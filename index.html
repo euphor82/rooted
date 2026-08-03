@@ -198,6 +198,29 @@ textarea:focus{outline:2px solid var(--sage);border-color:transparent}
 .jentry .jdate{font-size:.76rem;color:var(--ink-soft);letter-spacing:.05em;display:flex;justify-content:space-between}
 .jentry .jtext{margin-top:6px;font-size:.95rem;white-space:pre-wrap}
 .jdel{border:none;background:none;color:#B5876F;font-size:.76rem;cursor:pointer;padding:2px}
+.praytabs{display:flex;gap:8px;margin:14px 0 4px}
+.praytabs button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink-soft);border-radius:999px;padding:9px 10px;font-size:.85rem;font-weight:600;cursor:pointer}
+.praytabs button.on{background:var(--deep);color:#fff;border-color:transparent}
+.jentry.answered{opacity:.82;border-left:3px solid var(--sage)}
+.jentry.answered .jtext{text-decoration:none}
+.ansnote{margin-top:8px;font-size:.9rem;background:var(--paper);border-radius:8px;padding:8px 11px;border-left:3px solid var(--gold)}
+.ansnote b{display:block;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:3px}
+.prayact{border:none;background:none;color:var(--deep);font-size:.76rem;font-weight:600;cursor:pointer;padding:2px 4px}
+.grouphead{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:22px 0 2px}
+.viewall{border:1px dashed var(--line);background:none;color:var(--ink-soft);border-radius:999px;padding:7px 14px;font-size:.8rem;cursor:pointer;margin-top:12px}
+.taginput{width:100%;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:.9rem;background:var(--card);color:var(--ink);outline:none;margin-top:10px}
+.taginput:focus{outline:2px solid var(--sage);border-color:transparent}
+.taglabel{font-size:.8rem;color:var(--ink-soft);margin-top:12px}
+.tagsug{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.tagsug button{border:1px solid var(--line);background:var(--card);color:var(--ink-soft);border-radius:999px;padding:5px 11px;font-size:.78rem;cursor:pointer}
+.ptags{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.ptag{display:inline-block;background:var(--paper);color:var(--ink-soft);border-radius:999px;padding:3px 10px;font-size:.74rem;border:1px solid var(--line)}
+.pendtag{display:inline-flex;align-items:center;gap:5px;background:var(--sage);color:#fff;border-radius:999px;padding:4px 11px;font-size:.78rem;margin:6px 6px 0 0}
+.pendtag button{border:none;background:none;color:#fff;cursor:pointer;font-size:.95rem;line-height:1;padding:0}
+.tagfilter{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0 4px;align-items:center}
+.tagfilter .fl{font-size:.74rem;color:var(--ink-soft);letter-spacing:.05em;text-transform:uppercase;margin-right:2px}
+.tagfilter button{border:1px solid var(--line);background:var(--card);color:var(--ink-soft);border-radius:999px;padding:5px 12px;font-size:.78rem;cursor:pointer}
+.tagfilter button.on{background:var(--deep);color:#fff;border-color:transparent}
 
 /* bottom nav */
 nav{
@@ -1216,7 +1239,13 @@ function practiceText(text, mode){
 }
 
 // ============ STATE & ROUTER ============
-let state = { screen:'home', emotionId:null, subId:null, practice:0, editJ:null, readCat:null, readId:null, queueOpen:false, nameOpen:false };
+let state = { screen:'home', emotionId:null, subId:null, practice:0, editJ:null, readCat:null, readId:null, queueOpen:false, nameOpen:false, prayList:'self', prayAll:null, prayAns:null, prayFilter:null, editP:null };
+let PENDTAGS = [];
+let PRAYDRAFT = '';
+let EDITTAGS = null;
+let EDITTEXT = null;
+function stashEditText(){ const el = document.getElementById('peditext'); if(el) EDITTEXT = el.value; }
+function stashDraft(){ const el = document.getElementById('jtext'); if(el) PRAYDRAFT = el.value; }
 function go(s){ Object.assign(state, s); render(); window.scrollTo(0,0); }
 function currentEmotion(){ return DATA.find(e=>e.id===state.emotionId); }
 function currentSub(){ const e = currentEmotion(); return e ? e.subs.find(s=>s.id===state.subId) : null; }
@@ -1250,6 +1279,13 @@ function findPassage(id){
     return { ref: r.verse.ref, text: r.verse.text,
       why: 'From the read \u201c'+r.title+'\u201d', pray: r.pray,
       emotion: {id:'read'}, sub: {id: r.id} };
+  }
+  if(eId === 'topic'){
+    const t = TOPICS.find(x => x.id === sId); if(!t) return null;
+    const v = t.verses.find(x => x.ref === ref); if(!v) return null;
+    return { ref: v.ref, text: v.text,
+      why: 'From the topic \u201c'+t.name+'\u201d', pray: 'Sit with this verse and talk to God about what it stirs up.',
+      emotion: {id:'topic'}, sub: {id: t.id} };
   }
   const e = DATA.find(x=>x.id===eId); if(!e) return null;
   const s = e.subs.find(x=>x.id===sId); if(!s) return null;
@@ -1365,7 +1401,7 @@ function renderHome(){
   html += '<div class="grid" style="margin-top:8px">' + up.map(tile).join('') + '</div>';
   const standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone;
   if(!standalone && !S.get('hintDismissed', false)){
-    html += '<div class="banner"><div><b>Make this an app on your home screen:</b> open the url in Safari (iPhone) and tap Share, then \u201cAdd to Home Screen\u201d \u2014 or in Chrome (Android), tap the menu (\u22ee), then \u201cAdd to Home screen\u201d. It will work offline and keep your journal safe.</div>'
+    html += '<div class="banner"><div><b>Make this an app on your home screen:</b> open the url in Safari (iPhone) and tap Share, then \u201cAdd to Home Screen\u201d \u2014 or in Chrome (Android), tap the menu (\u22ee), then \u201cAdd to Home screen\u201d. It will work offline and keep your prayers safe.</div>'
       + '<button class="x" onclick="dismissHint()" aria-label="Dismiss">\u2715</button></div>';
   }
   html += footer();
@@ -1424,68 +1460,186 @@ function renderFavorites(){
   app.innerHTML = html;
 }
 
-let JMOOD = null;
-let EMOOD = null;
-const JOURNAL_MOODS = [
-  {emoji:'\u{1F60A}', name:'Happy'},
-  {emoji:'\u{1F970}', name:'Loved'},
-  {emoji:'\u{1F60E}', name:'Confident'},
-  {emoji:'\u{1F305}', name:'Hopeful'},
-  {emoji:'\u{1F64F}', name:'Grateful'},
-  {emoji:'\u{1F60C}', name:'Peaceful'},
-  {emoji:'\u{1F929}', name:'Excited'},
-  {emoji:'\u{1F622}', name:'Sad'},
-  {emoji:'\u{1F630}', name:'Anxious'},
-  {emoji:'\u{1F620}', name:'Angry'},
-  {emoji:'\u{1F614}', name:'Guilty'},
-  {emoji:'\u{1F97A}', name:'Lonely'},
-  {emoji:'\u{1F629}', name:'Overwhelmed'},
-  {emoji:'\u{1F615}', name:'Confused'},
-  {emoji:'\u{1F634}', name:'Tired'}
-];
-function moodChips(sel, handler, extraClass){
-  return '<div class="jtags">' + JOURNAL_MOODS.map(e =>
-    '<button class="jtag'+(extraClass?' '+extraClass:'')+(sel===e.emoji?' sel':'')+'" title="'+e.name+'" onclick="'+handler+'(this, \''+e.emoji+'\')">'+e.emoji+'</button>').join('') + '</div>';
+function normTag(t){ return t.trim().replace(/\s+/g,' ').slice(0,24); }
+function recentTags(kind){
+  const seen = [];
+  for(const p of S.get('prayers', [])){
+    if(p.list !== kind) continue;
+    for(const t of (p.tags||[])){ if(!seen.includes(t)) seen.push(t); }
+  }
+  return seen.slice(0, 8);
 }
-function pickMood(el, emo){
-  JMOOD = (JMOOD === emo) ? null : emo;
-  document.querySelectorAll('.jtag.newm').forEach(x=>x.classList.remove('sel'));
-  if(JMOOD) el.classList.add('sel');
+function addPendTag(t){
+  stashDraft();
+  const v = normTag(t);
+  if(v && !PENDTAGS.some(x => x.toLowerCase() === v.toLowerCase())) PENDTAGS.push(v);
+  const el = document.getElementById('ptagin'); if(el) el.value = '';
+  render();
 }
-function pickEditMood(el, emo){
-  EMOOD = (EMOOD === emo) ? null : emo;
-  document.querySelectorAll('.jtag.editm').forEach(x=>x.classList.remove('sel'));
-  if(EMOOD) el.classList.add('sel');
+function addPendTagFromInput(){
+  const el = document.getElementById('ptagin');
+  if(el && el.value.trim()) addPendTag(el.value);
 }
+function removePendTag(t){ stashDraft(); PENDTAGS = PENDTAGS.filter(x => x !== t); render(); }
+function listTags(kind){
+  const seen = [];
+  for(const p of S.get('prayers', [])){
+    if(p.list !== kind) continue;
+    for(const t of (p.tags||[])){ if(!seen.includes(t)) seen.push(t); }
+  }
+  return seen.sort((a,b)=>a.localeCompare(b));
+}
+function prayerList(kind){ return S.get('prayers', []).filter(p => p.list === kind); }
+function renderPrayerGroup(kind){
+  let all = prayerList(kind);
+  let html = '';
+  if(!all.length){
+    html += '<div class="empty" style="padding:28px 24px">'+svg('pen')+'No prayers here yet \u2014 add one above.</div>';
+    return html;
+  }
+  // tag filter bar (only when this list has tags)
+  const tags = listTags(kind);
+  if(state.prayFilter && !tags.includes(state.prayFilter)) state.prayFilter = null;
+  const filter = state.prayFilter;
+  if(tags.length){
+    html += '<div class="tagfilter"><span class="fl">Filter</span>'
+      + tags.map(t => '<button class="'+(filter===t?'on':'')+'" data-t="'+esc(t)+'" onclick="togglePrayFilter(this.dataset.t)">'+esc(t)+'</button>').join('')
+      + (filter ? '<button onclick="togglePrayFilter(null)">\u2715 Clear</button>' : '')
+      + '</div>';
+  }
+  if(filter){ all = all.filter(p => (p.tags||[]).includes(filter)); }
+  const active = all.filter(p => !p.answered);
+  const answered = all.filter(p => p.answered);
+  if(!all.length){
+    html += '<div class="empty" style="padding:20px 24px;font-size:.9rem">No prayers tagged \u201c'+esc(filter)+'\u201d here.</div>';
+    return html;
+  }
+  // active list, with view-all
+  const showAll = state.prayAll === kind;
+  const shown = showAll ? active : active.slice(0, 4);
+  html += shown.map(p => prayerCard(p)).join('');
+  if(!showAll && active.length > 4){
+    html += '<button class="viewall" onclick="go({prayAll:\''+kind+'\'})">View all '+active.length+' \u25BE</button>';
+  } else if(showAll && active.length > 4){
+    html += '<button class="viewall" onclick="go({prayAll:null})">Show fewer \u25B4</button>';
+  }
+  if(!active.length){
+    html += '<div class="empty" style="padding:20px 24px;font-size:.9rem">All prayers here have been answered. \u{1F64F}</div>';
+  }
+  // answered group, collapsed
+  if(answered.length){
+    const open = state.prayAns === kind;
+    html += '<button class="grouphead" style="border:none;background:none;cursor:pointer;padding:0" onclick="go({prayAns:'+(open?'null':'\''+kind+'\'')+'})">'
+      + '\u2713 Answered ('+answered.length+') '+(open?'\u25B4':'\u25BE')+'</button>';
+    if(open){
+      html += answered.map(p => prayerCard(p)).join('');
+    }
+  }
+  return html;
+}
+function togglePrayFilter(t){
+  state.prayFilter = (state.prayFilter === t) ? null : t;
+  state.prayAll = null;
+  render(); window.scrollTo(0,0);
+}
+function prayerCard(p){
+  if(state.editP === p.id) return prayerEditCard(p);
+  if(p.answered){
+    return '<div class="jentry answered"><div class="jdate">'
+      + '<span>\u2713 Answered '+esc(p.answeredDate||'')+'</span>'
+      + '<span><button class="prayact" onclick="editPrayer(\''+p.id+'\')">Edit</button>'
+      + '<button class="prayact" onclick="unanswerPrayer(\''+p.id+'\')">Undo</button>'
+      + '<button class="jdel" onclick="delPrayer(\''+p.id+'\')">Delete</button></span></div>'
+      + '<div class="jtext">'+esc(p.text)+'</div>'
+      + (p.tags && p.tags.length ? '<div class="ptags">'+p.tags.map(t=>'<span class="ptag">'+esc(t)+'</span>').join('')+'</div>' : '')
+      + (p.answeredNote ? '<div class="ansnote"><b>How God answered</b>'+esc(p.answeredNote)+'</div>' : '')
+      + '<div class="jdate" style="margin-top:8px;opacity:.7">Prayed '+esc(p.date)+(p.edited?' \u00b7 edited':'')+'</div></div>';
+  }
+  return '<div class="jentry"><div class="jdate"><span>'+esc(p.date)+(p.edited?' \u00b7 edited':'')+'</span>'
+    + '<span><button class="prayact" onclick="editPrayer(\''+p.id+'\')">Edit</button>'
+    + '<button class="prayact" onclick="answerPrayer(\''+p.id+'\')">\u2713 Answered</button>'
+    + '<button class="jdel" onclick="delPrayer(\''+p.id+'\')">Delete</button></span></div>'
+    + '<div class="jtext">'+esc(p.text)+'</div>'
+    + (p.tags && p.tags.length ? '<div class="ptags">'+p.tags.map(t=>'<span class="ptag">'+esc(t)+'</span>').join('')+'</div>' : '')
+    + '</div>';
+}
+function prayerEditCard(p){
+  const tags = EDITTAGS || [];
+  const txt = (EDITTEXT != null) ? EDITTEXT : p.text;
+  return '<div class="jentry" style="border-left:3px solid var(--deep)">'
+    + '<div class="jdate"><span>Editing</span></div>'
+    + '<textarea id="peditext" style="margin-top:8px">'+esc(txt)+'</textarea>'
+    + (tags.length ? '<div>'+tags.map(t=>'<span class="pendtag">'+esc(t)+'<button aria-label="Remove tag" data-t="'+esc(t)+'" onclick="removeEditTag(this.dataset.t)">\u00d7</button></span>').join('')+'</div>' : '')
+    + '<input id="peditagin" class="taginput" placeholder="Add a tag\u2026" enterkeyhint="done" onkeydown="if(event.key===\'Enter\'){event.preventDefault();addEditTagFromInput();}">'
+    + '<div class="jedit-actions" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">'
+    + '<button class="btn" style="width:auto;padding:10px 20px" onclick="saveEditPrayer(\''+p.id+'\')">Save changes</button>'
+    + '<button class="chip" onclick="cancelEditPrayer()">Cancel</button></div></div>';
+}
+function editPrayer(id){
+  const p = S.get('prayers', []).find(x => x.id === id);
+  if(!p) return;
+  EDITTAGS = (p.tags || []).slice();
+  EDITTEXT = null;
+  go({editP:id});
+}
+function addEditTag(t){
+  stashEditText();
+  const v = normTag(t);
+  if(v && !EDITTAGS.some(x => x.toLowerCase() === v.toLowerCase())) EDITTAGS.push(v);
+  const el = document.getElementById('peditagin'); if(el) el.value = '';
+  render();
+}
+function addEditTagFromInput(){
+  const el = document.getElementById('peditagin');
+  if(el && el.value.trim()) addEditTag(el.value);
+}
+function removeEditTag(t){ stashEditText(); EDITTAGS = EDITTAGS.filter(x => x !== t); render(); }
+function saveEditPrayer(id){
+  const el = document.getElementById('peditext');
+  const t = (el && el.value || '').trim();
+  if(!t) return;
+  const tin = document.getElementById('peditagin');
+  if(tin && tin.value.trim()){
+    const v = normTag(tin.value);
+    if(v && !EDITTAGS.some(x=>x.toLowerCase()===v.toLowerCase())) EDITTAGS.push(v);
+  }
+  const prayers = S.get('prayers', []);
+  const p = prayers.find(x => x.id === id);
+  if(!p) return;
+  p.text = t;
+  p.tags = EDITTAGS.slice();
+  p.edited = true;
+  EDITTAGS = null;
+  EDITTEXT = null;
+  S.set('prayers', prayers);
+  go({editP:null});
+}
+function cancelEditPrayer(){ EDITTAGS = null; EDITTEXT = null; go({editP:null}); }
 function renderJournal(){
   setTint(null);
-  let html = '<div class="top"><div><h1>Journal</h1><div class="sub">A quiet place to write what you\u2019re feeling</div></div></div>';
-  html += '<textarea id="jtext" placeholder="What\u2019s on your heart today?"></textarea>'
-    + '<div class="jtaglabel">Tag how you\u2019re feeling (optional):</div>'
-    + moodChips(JMOOD, 'pickMood', 'newm')
-    + '<button class="btn" onclick="addEntry()">Save entry</button>';
-  const entries = S.get('journal', []);
-  if(entries.length){
-    html += entries.map((en,i) => {
-      if(state.editJ === i){
-        return '<div class="jentry" style="border-left:3px solid var(--deep)">'
-          + '<div class="jdate"><span>Editing \u2014 '+(en.mood? en.mood+' ' : '')+esc(en.date)+'</span></div>'
-          + '<textarea id="jedit" style="margin-top:10px">'+esc(en.text)+'</textarea>'
-          + moodChips(EMOOD, 'pickEditMood', 'editm')
-          + '<div class="jedit-actions"><button class="btn" onclick="saveEdit('+i+')">Save changes</button>'
-          + '<button class="chip" onclick="cancelEdit()">Cancel</button></div></div>';
-      }
-      return '<div class="jentry"><div class="jdate"><span>'+(en.mood? en.mood+' ' : '')+esc(en.date)+(en.edited?' <span class="edited">(edited)</span>':'')+'</span>'
-      + '<span><button class="jeditbtn" onclick="beginEdit('+i+')">Edit</button>'
-      + '<button class="jdel" onclick="delEntry('+i+')">Delete</button></span></div>'
-      + '<div class="jtext">'+esc(en.text)+'</div></div>';
-    }).join('');
-  } else {
-    html += '<div class="empty" style="padding-top:34px">'+svg('pen')+'Your entries stay on this phone — just between you and God.</div>';
+  const kind = state.prayList || 'self';
+  let html = '<div class="top"><div><h1>Prayers</h1><div class="sub">Bring your requests to God \u2014 and watch how he answers</div></div></div>';
+  html += '<div class="praytabs">'
+    + '<button class="'+(kind==='self'?'on':'')+'" onclick="switchPrayList(\'self\')">For myself</button>'
+    + '<button class="'+(kind==='others'?'on':'')+'" onclick="switchPrayList(\'others\')">For others</button>'
+    + '</div>';
+  // tag field first, above the prayer box
+  if(PENDTAGS.length){
+    html += '<div>'+PENDTAGS.map(t=>'<span class="pendtag">'+esc(t)+'<button aria-label="Remove tag" data-t="'+esc(t)+'" onclick="removePendTag(this.dataset.t)">\u00d7</button></span>').join('')+'</div>';
   }
+  html += '<input id="ptagin" class="taginput" style="margin-top:0" placeholder="'+(kind==='others'?'Optional \u2014 Add a name or other tag to filter search results (e.g. Mom, Friend\u2019s name, church, school\u2026)':'Optional \u2014 Add a tag to filter search results (e.g. school, health\u2026)')+'" enterkeyhint="done" onkeydown="if(event.key===\'Enter\'){event.preventDefault();addPendTagFromInput();}">';
+  const rec = recentTags(kind).filter(t => !PENDTAGS.some(x=>x.toLowerCase()===t.toLowerCase()));
+  if(rec.length){
+    html += '<div class="taglabel">Recent tags:</div><div class="tagsug">'
+      + rec.map(t=>'<button data-t="'+esc(t)+'" onclick="addPendTag(this.dataset.t)">+ '+esc(t)+'</button>').join('')
+      + '</div>';
+  }
+  html += '<textarea id="jtext" style="margin-top:12px" placeholder="'+(kind==='self'?'What do you want to bring to God?':'Who are you lifting up (tag their name above), and what for?')+'">'+esc(PRAYDRAFT)+'</textarea>';
+  html += '<button class="btn" onclick="addPrayer()">Add prayer</button>';
+  html += renderPrayerGroup(kind);
   html += '<div class="sechead" style="margin-top:34px">Back up &amp; restore</div>'
     + '<div class="pcard" style="border-left-color:var(--sage)">'
-    + '<div class="why" style="margin-top:0">Everything in this app (journal, saved verses, memory verse) lives only on this phone. Save a backup file every so often — you can restore it here anytime, even on a new phone.</div>'
+    + '<div class="why" style="margin-top:0">Everything in this app (prayers, saved verses, memory verse) lives only on this phone. Save a backup file every so often — you can restore it here anytime, even on a new phone.</div>'
     + '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">'
     + '<button class="chip" onclick="exportBackup()">⬇ Save backup file</button>'
     + '<button class="chip" onclick="document.getElementById(\'importfile\').click()">⬆ Restore from backup</button>'
@@ -1498,10 +1652,11 @@ function renderJournal(){
 
 function exportBackup(){
   const data = {
-    app: 'rooted', version: 1, exported: new Date().toISOString(),
-    journal: S.get('journal', []),
+    app: 'rooted', version: 2, exported: new Date().toISOString(),
+    prayers: S.get('prayers', []),
     favs: S.get('favs', []),
     memverse: S.get('memverse', null),
+    memqueue: S.get('memqueue', []),
     visits: S.get('visits', {}),
     username: S.get('username', null)
   };
@@ -1520,11 +1675,12 @@ function importBackup(input){
     try{
       const data = JSON.parse(reader.result);
       if(data.app !== 'rooted' && data.app !== 'at-all-times') throw new Error('wrong file');
-      const n = (data.journal||[]).length, f = (data.favs||[]).length;
-      if(!confirm('Restore backup from ' + (data.exported ? data.exported.slice(0,10) : 'unknown date') + '? This will replace what’s on this phone (' + n + ' journal entries, ' + f + ' saved verses).')) { input.value=''; return; }
-      if(Array.isArray(data.journal)) S.set('journal', data.journal);
+      const n = (data.prayers||[]).length, f = (data.favs||[]).length;
+      if(!confirm('Restore backup from ' + (data.exported ? data.exported.slice(0,10) : 'unknown date') + '? This will replace what’s on this phone (' + n + ' prayers, ' + f + ' saved verses).')) { input.value=''; return; }
+      if(Array.isArray(data.prayers)) S.set('prayers', data.prayers);
       if(Array.isArray(data.favs)) S.set('favs', data.favs);
       if(data.memverse) S.set('memverse', data.memverse);
+      if(Array.isArray(data.memqueue)) S.set('memqueue', data.memqueue);
       if(data.visits && typeof data.visits === 'object') S.set('visits', data.visits);
       if(typeof data.username === 'string' && data.username) S.set('username', data.username);
       input.value = '';
@@ -1537,39 +1693,54 @@ function importBackup(input){
   };
   reader.readAsText(file);
 }
-function addEntry(){
-  const t = document.getElementById('jtext').value.trim();
-  if(!t) return;
-  const entries = S.get('journal', []);
-  const d = new Date();
-  const date = d.toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'});
-  entries.unshift({date, text:t, mood: JMOOD || null});
-  JMOOD = null;
-  S.set('journal', entries); render();
+function shortDate(d){ return d.toLocaleDateString(undefined,{month:'short', day:'numeric', year:'numeric'}); }
+function switchPrayList(kind){
+  PENDTAGS = [];
+  PRAYDRAFT = '';
+  go({prayList:kind, prayAll:null, prayAns:null, prayFilter:null});
 }
-function delEntry(i){
-  if(!confirm('Delete this entry? This can\u2019t be undone.')) return;
-  const entries = S.get('journal', []);
-  entries.splice(i,1); S.set('journal', entries); render();
-}
-function beginEdit(i){
-  const en = S.get('journal', [])[i];
-  EMOOD = (en && en.mood) || null;
-  go({screen:'journal', editJ:i});
-}
-function saveEdit(i){
-  const el = document.getElementById('jedit');
+function addPrayer(){
+  const el = document.getElementById('jtext');
   const t = (el && el.value || '').trim();
   if(!t) return;
-  const entries = S.get('journal', []);
-  if(!entries[i]) return;
-  entries[i].text = t;
-  entries[i].mood = EMOOD;
-  entries[i].edited = true;
-  S.set('journal', entries);
-  go({editJ:null});
+  // fold any un-added text still sitting in the tag box into the tags
+  const tin = document.getElementById('ptagin');
+  if(tin && tin.value.trim()){
+    const v = normTag(tin.value);
+    if(v && !PENDTAGS.some(x=>x.toLowerCase()===v.toLowerCase())) PENDTAGS.push(v);
+  }
+  const kind = state.prayList || 'self';
+  const prayers = S.get('prayers', []);
+  const id = 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+  prayers.unshift({ id, list:kind, text:t, date: shortDate(new Date()),
+    tags: PENDTAGS.slice(), answered:false, answeredDate:null, answeredNote:null });
+  PENDTAGS = [];
+  PRAYDRAFT = '';
+  S.set('prayers', prayers); render();
 }
-function cancelEdit(){ go({editJ:null}); }
+function delPrayer(id){
+  if(!confirm('Delete this prayer? This can\u2019t be undone.')) return;
+  S.set('prayers', S.get('prayers', []).filter(p => p.id !== id));
+  render();
+}
+function answerPrayer(id){
+  const note = prompt('How did God answer this prayer? (optional \u2014 leave blank to skip)');
+  if(note === null) return; // cancelled
+  const prayers = S.get('prayers', []);
+  const p = prayers.find(x => x.id === id);
+  if(!p) return;
+  p.answered = true;
+  p.answeredDate = shortDate(new Date());
+  p.answeredNote = note.trim() || null;
+  S.set('prayers', prayers); render();
+}
+function unanswerPrayer(id){
+  const prayers = S.get('prayers', []);
+  const p = prayers.find(x => x.id === id);
+  if(!p) return;
+  p.answered = false; p.answeredDate = null; p.answeredNote = null;
+  S.set('prayers', prayers); render();
+}
 
 function footer(){
   return '<footer>'
@@ -1584,7 +1755,7 @@ function renderNav(){
     {id:'ask', label:'Topics', icon:'chat', screens:['ask']},
     {id:'reads', label:'Reads', icon:'page', screens:['reads','readlist','read']},
     {id:'favorites', label:'Saved', icon:'star', screens:['favorites']},
-    {id:'journal', label:'Journal', icon:'pen', screens:['journal']}
+    {id:'journal', label:'Prayers', icon:'pen', screens:['journal']}
   ];
   document.getElementById('nav').innerHTML = tabs.map(t =>
     '<button class="'+(t.screens.includes(state.screen)?'active':'')+'" onclick="go({screen:\''+t.id+'\'})">'
@@ -1727,7 +1898,15 @@ function appReplyHTML(m){
     if(!t) return '<div class="msg app">Hmm, I lost that one \u2014 try asking again.</div>';
     let h = '<div class="msg app"><div>'+esc(t.intro)+'</div>';
     for(const v of t.verses){
-      h += '<div class="mini"><div class="vt">'+esc(v.text)+'</div><div class="vr">\u2014 '+esc(v.ref)+' (ESV)</div></div>';
+      const fid = favId('topic', t.id, v.ref);
+      const on = isFav(fid);
+      h += '<div class="mini"><div class="vt">'+esc(v.text)+'</div>'
+        + '<div class="vr" style="display:flex;justify-content:space-between;align-items:center;gap:8px">'
+        + '<span>\u2014 '+esc(v.ref)+' (ESV)</span><span class="acts">'
+        + '<button class="share" aria-label="Share verse" data-t="'+esc(v.text)+'" data-r="'+esc(v.ref)+'" onclick="shareVerse(this.dataset.t, this.dataset.r)">'+svg('shareic')+'</button>'
+        + '<button class="fav'+(on?' on':'')+(lastFavPop===fid?' pop':'')+'" aria-label="'+(on?'Remove from favorites':'Save to favorites')+'" onclick="toggleFav(\''+fid+'\')">'+(on?'\u2605':'\u2606')+'</button></span></div>'
+        + memControls(v.ref, v.text, on)
+        + '</div>';
     }
     if(t.related && t.related.length){
       h += '<div style="margin-top:12px;font-size:.82rem;color:var(--ink-soft)">Related:</div><div class="chips">'+t.related.map(topicChip).join('')+'</div>';
@@ -1772,7 +1951,7 @@ function renderAsk(){
 
 let lastScreen = null;
 function render(){
-  if(state.screen !== 'journal') state.editJ = null;
+  if(state.screen !== 'journal'){ state.editJ = null; state.editP = null; EDITTAGS = null; EDITTEXT = null; }
   if(state.screen==='home') renderHome();
   else if(state.screen==='subs') renderSubs();
   else if(state.screen==='passages') renderPassages();
