@@ -1787,8 +1787,8 @@ function renderNav(){
     {id:'home', label:'Verses', icon:'book', screens:['home','subs','passages']},
     {id:'ask', label:'Topics', icon:'chat', screens:['ask']},
     {id:'reads', label:'Reads', icon:'page', screens:['reads','readlist','read']},
-    {id:'favorites', label:'Saved', icon:'star', screens:['favorites']},
-    {id:'journal', label:'Prayers', icon:'pen', screens:['journal']}
+    {id:'journal', label:'Prayers', icon:'pen', screens:['journal']},
+    {id:'favorites', label:'Saved', icon:'star', screens:['favorites']}
   ];
   document.getElementById('nav').innerHTML = tabs.map(t =>
     '<button class="'+(t.screens.includes(state.screen)?'active':'')+'" onclick="go({screen:\''+t.id+'\'})">'
