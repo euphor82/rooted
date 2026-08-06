@@ -113,6 +113,20 @@ body{
 
 /* emotion grid */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tsearch{position:relative;margin-top:6px}
+.tsearch input{width:100%;border:1px solid var(--line);border-radius:999px;padding:12px 40px 12px 42px;font-size:.95rem;background:var(--card);color:var(--ink);outline:none}
+.tsearch input:focus{outline:2px solid var(--sage);border-color:transparent}
+.tsearch .si{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--ink-soft);pointer-events:none}
+.tsearch .clr{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:none;background:none;color:var(--ink-soft);font-size:1.1rem;cursor:pointer;padding:4px 8px}
+.tviewtog{display:flex;gap:8px;margin:14px 0 2px;align-items:center}
+.tviewtog .lbl{font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);margin-right:auto}
+.tviewtog button{border:1px solid var(--line);background:var(--card);color:var(--ink-soft);border-radius:999px;padding:5px 13px;font-size:.78rem;font-weight:600;cursor:pointer}
+.tviewtog button.on{background:var(--deep);color:#fff;border-color:transparent}
+.ttile{background:var(--card);border:none;border-radius:var(--radius);padding:13px;cursor:pointer;text-align:left;box-shadow:0 1px 4px var(--shadow);display:flex;flex-direction:row;align-items:center;gap:10px;transition:transform .12s ease}
+.ttile:active{transform:scale(.97)}
+.ttile .dot{width:34px;height:34px;border-radius:50%;background:var(--paper);display:flex;align-items:center;justify-content:center;flex:none;font-size:1.15rem;line-height:1}
+.ttile .name{font-family:Georgia,serif;font-size:.98rem;color:var(--ink);line-height:1.2}
+.tnores{text-align:center;color:var(--ink-soft);padding:34px 20px;font-size:.95rem}
 .etile{
   background:var(--card);border:none;border-radius:var(--radius);
   padding:14px;cursor:pointer;text-align:left;
@@ -282,20 +296,10 @@ footer{margin-top:36px;text-align:center;font-size:.68rem;color:var(--footer);li
 .readsintro{font-size:.9rem;color:var(--ink-soft);margin:10px 2px 4px;line-height:1.55}
 
 /* ask / chat */
-.chatwrap{display:flex;flex-direction:column;gap:10px;margin-top:12px;padding-bottom:84px}
-.msg{max-width:88%;border-radius:16px;padding:12px 14px;font-size:.95rem;line-height:1.55}
-.msg.me{align-self:flex-end;background:var(--deep);color:#fff;border-bottom-right-radius:4px}
-.msg.app{align-self:flex-start;background:var(--card);box-shadow:0 1px 4px var(--shadow);border-bottom-left-radius:4px}
-.msg .mini{border-left:3px solid var(--sage);padding:9px 11px;margin-top:10px;background:var(--paper);border-radius:8px}
+.mini{border-left:3px solid var(--sage);padding:9px 11px;margin-top:10px;background:var(--paper);border-radius:8px}
 .mini .vt{font-family:Georgia,serif;font-size:.98rem;line-height:1.6}
 .mini .vr{font-size:.8rem;color:var(--ink-soft);font-style:italic;margin-top:4px}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.askbar{position:fixed;left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom));z-index:9;display:flex;gap:8px;justify-content:center;padding:10px 18px;background:var(--nav-bg);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
-.askbar .inner{display:flex;gap:8px;width:100%;max-width:524px}
-.askbar input{flex:1;border:1px solid var(--line);border-radius:999px;padding:10px 16px;font-size:1rem;background:var(--card);color:var(--ink);outline:none;min-width:0}
-.askbar input:focus{border-color:var(--sage)}
-.askbar .btn{margin-top:0;flex:none}
-.clearchat{border:none;background:none;color:var(--ink-soft);font-size:.76rem;cursor:pointer;align-self:center;margin-top:4px;text-decoration:underline}
 
 
 /* polish: motion, share, greeting, mood tags, banner, typing */
@@ -307,11 +311,6 @@ footer{margin-top:36px;text-align:center;font-size:.68rem;color:var(--footer);li
 .share{border:none;background:none;cursor:pointer;color:var(--ink-soft);padding:4px 6px;line-height:1}
 .share svg{width:17px;height:17px;display:block}
 .greet{font-size:.92rem;color:var(--ink-soft);margin:10px 2px 0;text-align:center}
-.typing{display:inline-flex;gap:4px;padding:4px 2px}
-.typing span{width:7px;height:7px;border-radius:50%;background:var(--ink-soft);animation:blink 1.2s infinite}
-.typing span:nth-child(2){animation-delay:.2s}
-.typing span:nth-child(3){animation-delay:.4s}
-@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:.9}}
 .jtags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px}
 .jtaglabel{font-size:.78rem;color:var(--ink-soft);margin-top:12px}
 .jtag{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;font-size:1.05rem;cursor:pointer;line-height:1}
@@ -748,175 +747,176 @@ const MEMORY_GENERAL = [
 
 // ============ TOPICAL SEARCH (curated) ============
 const TOPICS = [
-{id:"forgiveness",name:"Forgiveness",keys:["forgive","forgiving","forgave","pardon","mercy"],intro:"Here\u2019s what God\u2019s word says about forgiveness:",verses:[
+{id:"forgiveness",name:"Forgiveness",emoji:"🤝",group:"Character & Growth",keys:["forgive","forgiving","forgave","pardon","mercy"],intro:"Here\u2019s what God\u2019s word says about forgiveness:",verses:[
  {ref:"Ephesians 4:32",text:"Be kind to one another, tenderhearted, forgiving one another, as God in Christ forgave you."},
  {ref:"Matthew 6:14",text:"For if you forgive others their trespasses, your heavenly Father will also forgive you."},
  {ref:"Colossians 3:13",text:"...as the Lord has forgiven you, so you also must forgive."}],related:["grace","enemies"]},
-{id:"friendship",name:"Friendship",keys:["friend","friends","friendship","bestie","best friend"],intro:"God\u2019s word on friendship:",verses:[
+{id:"friendship",name:"Friendship",emoji:"👫",group:"Relationships",keys:["friend","friends","friendship","bestie","best friend"],intro:"God\u2019s word on friendship:",verses:[
  {ref:"Proverbs 17:17",text:"A friend loves at all times, and a brother is born for adversity."},
  {ref:"Proverbs 27:17",text:"Iron sharpens iron, and one man sharpens another."},
  {ref:"John 15:13",text:"Greater love has no one than this, that someone lay down his life for his friends."}],related:["love","kindness"]},
-{id:"prayer",name:"Prayer",keys:["pray","praying","prayer","talk to god"],intro:"What the Bible says about prayer:",verses:[
+{id:"prayer",name:"Prayer",emoji:"🙏",group:"Faith & God",keys:["pray","praying","prayer","talk to god"],intro:"What the Bible says about prayer:",verses:[
  {ref:"Philippians 4:6",text:"Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God."},
  {ref:"Matthew 7:7",text:"Ask, and it will be given to you; seek, and you will find; knock, and it will be opened to you."},
  {ref:"1 Thessalonians 5:17",text:"Pray without ceasing."}],related:["faith","trust"]},
-{id:"faith",name:"Faith",keys:["faith","believe","believing","belief"],intro:"On faith:",verses:[
+{id:"faith",name:"Faith",emoji:"✨",group:"Faith & God",keys:["faith","believe","believing","belief"],intro:"On faith:",verses:[
  {ref:"Hebrews 11:1",text:"Now faith is the assurance of things hoped for, the conviction of things not seen."},
  {ref:"Romans 10:17",text:"So faith comes from hearing, and hearing through the word of Christ."},
  {ref:"2 Corinthians 5:7",text:"...for we walk by faith, not by sight."}],related:["trust","hope"]},
-{id:"love",name:"Love",keys:["love","loving","charity"],intro:"What God\u2019s word says about love:",verses:[
+{id:"love",name:"Love",emoji:"❤️",group:"Relationships",keys:["love","loving","charity"],intro:"What God\u2019s word says about love:",verses:[
  {ref:"1 Corinthians 13:4-5",text:"Love is patient and kind; love does not envy or boast; it is not arrogant or rude. It does not insist on its own way; it is not irritable or resentful."},
  {ref:"John 13:34",text:"A new commandment I give to you, that you love one another: just as I have loved you, you also are to love one another."},
  {ref:"1 John 4:19",text:"We love because he first loved us."}],related:["godslove","friendship","kindness"]},
-{id:"godslove",name:"God\u2019s love",keys:["god's love","gods love","does god love me","god love","loved by god"],intro:"How much does God love you? Here\u2019s his answer:",verses:[
+{id:"godslove",name:"God\u2019s love",emoji:"🕊️",group:"Faith & God",keys:["god's love","gods love","does god love me","god love","loved by god"],intro:"How much does God love you? Here\u2019s his answer:",verses:[
  {ref:"Romans 8:38-39",text:"For I am sure that neither death nor life, nor angels nor rulers, nor things present nor things to come, nor powers, nor height nor depth, nor anything else in all creation, will be able to separate us from the love of God in Christ Jesus our Lord."},
  {ref:"1 John 3:1",text:"See what kind of love the Father has given to us, that we should be called children of God; and so we are."},
  {ref:"Zephaniah 3:17",text:"The LORD your God is in your midst... he will rejoice over you with gladness; he will quiet you by his love."}],related:["love","identity","grace"]},
-{id:"courage",name:"Courage",keys:["courage","brave","bravery","bold","boldness"],intro:"Verses for courage:",verses:[
+{id:"courage",name:"Courage",emoji:"🦁",group:"Feelings & Struggles",keys:["courage","brave","bravery","bold","boldness"],intro:"Verses for courage:",verses:[
  {ref:"Joshua 1:9",text:"Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go."},
  {ref:"Psalm 27:1",text:"The LORD is my light and my salvation; whom shall I fear?"},
  {ref:"Deuteronomy 31:6",text:"Be strong and courageous... it is the LORD your God who goes with you. He will not leave you or forsake you."}],related:["strength","trust"]},
-{id:"hope",name:"Hope",keys:["hope","hopeful","future"],intro:"On hope:",verses:[
+{id:"hope",name:"Hope",emoji:"🌅",group:"Feelings & Struggles",keys:["hope","hopeful","future"],intro:"On hope:",verses:[
  {ref:"Jeremiah 29:11",text:"For I know the plans I have for you, declares the LORD, plans for welfare and not for evil, to give you a future and a hope."},
  {ref:"Hebrews 6:19",text:"We have this as a sure and steadfast anchor of the soul..."},
  {ref:"Romans 15:13",text:"May the God of hope fill you with all joy and peace in believing, so that by the power of the Holy Spirit you may abound in hope."}],related:["faith","strength"]},
-{id:"peace",name:"Peace",keys:["peace","peaceful","calm"],intro:"Verses about peace:",verses:[
+{id:"peace",name:"Peace",emoji:"🕊️",group:"Feelings & Struggles",keys:["peace","peaceful","calm"],intro:"Verses about peace:",verses:[
  {ref:"John 14:27",text:"Peace I leave with you; my peace I give to you. Not as the world gives do I give to you. Let not your hearts be troubled, neither let them be afraid."},
  {ref:"Isaiah 26:3",text:"You keep him in perfect peace whose mind is stayed on you, because he trusts in you."},
  {ref:"Philippians 4:7",text:"And the peace of God, which surpasses all understanding, will guard your hearts and your minds in Christ Jesus."}],related:["rest","trust"]},
-{id:"joy",name:"Joy",keys:["joy","joyful","happiness","cheerful"],intro:"On joy:",verses:[
+{id:"joy",name:"Joy",emoji:"😄",group:"Feelings & Struggles",keys:["joy","joyful","happiness","cheerful"],intro:"On joy:",verses:[
  {ref:"Nehemiah 8:10",text:"...the joy of the LORD is your strength."},
  {ref:"Psalm 16:11",text:"...in your presence there is fullness of joy; at your right hand are pleasures forevermore."},
  {ref:"James 1:2-3",text:"Count it all joy, my brothers, when you meet trials of various kinds, for you know that the testing of your faith produces steadfastness."}],related:["gratitude","peace"]},
-{id:"patience",name:"Patience",keys:["patience","patient","waiting","wait"],intro:"On patience and waiting:",verses:[
+{id:"patience",name:"Patience",emoji:"⏳",group:"Character & Growth",keys:["patience","patient","waiting","wait"],intro:"On patience and waiting:",verses:[
  {ref:"Romans 12:12",text:"Rejoice in hope, be patient in tribulation, be constant in prayer."},
  {ref:"Galatians 6:9",text:"And let us not grow weary of doing good, for in due season we will reap, if we do not give up."},
  {ref:"Psalm 27:14",text:"Wait for the LORD; be strong, and let your heart take courage; wait for the LORD!"}],related:["hope","selfcontrol"]},
-{id:"kindness",name:"Kindness",keys:["kind","kindness","nice","gentle","gentleness"],intro:"On kindness:",verses:[
+{id:"kindness",name:"Kindness",emoji:"🤗",group:"Character & Growth",keys:["kind","kindness","nice","gentle","gentleness"],intro:"On kindness:",verses:[
  {ref:"Luke 6:31",text:"And as you wish that others would do to you, do so to them."},
  {ref:"Proverbs 11:17",text:"A man who is kind benefits himself, but a cruel man hurts himself."},
  {ref:"Ephesians 4:32",text:"Be kind to one another, tenderhearted, forgiving one another, as God in Christ forgave you."}],related:["love","serving"]},
-{id:"honesty",name:"Honesty",keys:["honest","honesty","lying","lie","lies","truth","integrity","cheating","cheat"],intro:"What God says about honesty and truth:",verses:[
+{id:"honesty",name:"Honesty",emoji:"💬",group:"Character & Growth",keys:["honest","honesty","lying","lie","lies","truth","integrity","cheating","cheat"],intro:"What God says about honesty and truth:",verses:[
  {ref:"Proverbs 12:22",text:"Lying lips are an abomination to the LORD, but those who act faithfully are his delight."},
  {ref:"Ephesians 4:25",text:"Therefore, having put away falsehood, let each one of you speak the truth with his neighbor, for we are members one of another."},
  {ref:"Proverbs 10:9",text:"Whoever walks in integrity walks securely, but he who makes his ways crooked will be found out."}],related:["words","selfcontrol"]},
-{id:"gossip",name:"Gossip",keys:["gossip","gossiping","rumors","rumor","talking behind","drama"],intro:"On gossip and rumors:",verses:[
+{id:"gossip",name:"Gossip",emoji:"🤐",group:"Character & Growth",keys:["gossip","gossiping","rumors","rumor","talking behind","drama"],intro:"On gossip and rumors:",verses:[
  {ref:"Proverbs 16:28",text:"A dishonest man spreads strife, and a whisperer separates close friends."},
  {ref:"Ephesians 4:29",text:"Let no corrupting talk come out of your mouths, but only such as is good for building up, as fits the occasion, that it may give grace to those who hear."},
  {ref:"Proverbs 11:13",text:"Whoever goes about slandering reveals secrets, but he who is trustworthy in spirit keeps a thing covered."}],related:["words","friendship"]},
-{id:"words",name:"My words",keys:["words","tongue","speech","talk","mouth","cursing","language"],intro:"On the power of your words:",verses:[
+{id:"words",name:"My words",emoji:"🗣️",group:"Character & Growth",keys:["words","tongue","speech","talk","mouth","cursing","language"],intro:"On the power of your words:",verses:[
  {ref:"Proverbs 18:21",text:"Death and life are in the power of the tongue, and those who love it will eat its fruits."},
  {ref:"Psalm 19:14",text:"Let the words of my mouth and the meditation of my heart be acceptable in your sight, O LORD, my rock and my redeemer."},
  {ref:"James 1:19",text:"...let every person be quick to hear, slow to speak, slow to anger."}],related:["gossip","honesty"]},
-{id:"temptation",name:"Temptation",keys:["temptation","tempted","tempt","sin","sinning"],intro:"When you\u2019re tempted:",verses:[
+{id:"temptation",name:"Temptation",emoji:"🛡️",group:"Feelings & Struggles",keys:["temptation","tempted","tempt","sin","sinning"],intro:"When you\u2019re tempted:",verses:[
  {ref:"1 Corinthians 10:13",text:"No temptation has overtaken you that is not common to man. God is faithful, and he will not let you be tempted beyond your ability, but with the temptation he will also provide the way of escape, that you may be able to endure it."},
  {ref:"James 4:7",text:"Submit yourselves therefore to God. Resist the devil, and he will flee from you."},
  {ref:"Matthew 26:41",text:"Watch and pray that you may not enter into temptation. The spirit indeed is willing, but the flesh is weak."}],related:["selfcontrol","grace"]},
-{id:"selfcontrol",name:"Self-control",keys:["self-control","self control","discipline","willpower"],intro:"On self-control:",verses:[
+{id:"selfcontrol",name:"Self-control",emoji:"✋",group:"Character & Growth",keys:["self-control","self control","discipline","willpower"],intro:"On self-control:",verses:[
  {ref:"2 Timothy 1:7",text:"For God gave us a spirit not of fear but of power and love and self-control."},
  {ref:"Proverbs 25:28",text:"A man without self-control is like a city broken into and left without walls."},
  {ref:"Galatians 5:22-23",text:"But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control; against such things there is no law."}],related:["temptation","patience"]},
-{id:"bullying",name:"Bullying",keys:["bully","bullies","bullying","picked on","mean kids","harassed"],intro:"If you\u2019re being mistreated \u2014 God sees, and he\u2019s your stronghold. Please also tell a parent or trusted adult:",verses:[
+{id:"bullying",name:"Bullying",emoji:"🚫",group:"Relationships",keys:["bully","bullies","bullying","picked on","mean kids","harassed"],intro:"If you\u2019re being mistreated \u2014 God sees, and he\u2019s your stronghold. Please also tell a parent or trusted adult:",verses:[
  {ref:"Psalm 9:9",text:"The LORD is a stronghold for the oppressed, a stronghold in times of trouble."},
  {ref:"Luke 6:27-28",text:"But I say to you who hear, Love your enemies, do good to those who hate you, bless those who curse you, pray for those who abuse you."},
  {ref:"Romans 12:21",text:"Do not be overcome by evil, but overcome evil with good."}],related:["enemies","courage"]},
-{id:"enemies",name:"Enemies",keys:["enemy","enemies","hater","haters","people who hate me","revenge"],intro:"How to treat people who are against you:",verses:[
+{id:"enemies",name:"Enemies",emoji:"⚔️",group:"Relationships",keys:["enemy","enemies","hater","haters","people who hate me","revenge"],intro:"How to treat people who are against you:",verses:[
  {ref:"Luke 6:27-28",text:"But I say to you who hear, Love your enemies, do good to those who hate you, bless those who curse you, pray for those who abuse you."},
  {ref:"Romans 12:19",text:"Beloved, never avenge yourselves, but leave it to the wrath of God..."},
  {ref:"Proverbs 25:21",text:"If your enemy is hungry, give him bread to eat, and if he is thirsty, give him water to drink."}],related:["forgiveness","bullying"]},
-{id:"money",name:"Money",keys:["money","rich","riches","wealth","greedy","greed","stuff","possessions"],intro:"On money and stuff:",verses:[
+{id:"money",name:"Money",emoji:"💰",group:"Life & Choices",keys:["money","rich","riches","wealth","greedy","greed","stuff","possessions"],intro:"On money and stuff:",verses:[
  {ref:"1 Timothy 6:10",text:"For the love of money is a root of all kinds of evils. It is through this craving that some have wandered away from the faith and pierced themselves with many pangs."},
  {ref:"Hebrews 13:5",text:"Keep your life free from love of money, and be content with what you have, for he has said, \u201cI will never leave you nor forsake you.\u201d"},
  {ref:"Matthew 6:24",text:"No one can serve two masters... You cannot serve God and money."}],related:["contentment","gratitude"]},
-{id:"contentment",name:"Contentment",keys:["content","contentment","satisfied","enough"],intro:"On being content:",verses:[
+{id:"contentment",name:"Contentment",emoji:"😌",group:"Feelings & Struggles",keys:["content","contentment","satisfied","enough"],intro:"On being content:",verses:[
  {ref:"1 Timothy 6:6",text:"But godliness with contentment is great gain."},
  {ref:"Philippians 4:11-12",text:"...for I have learned in whatever situation I am to be content. I know how to be brought low, and I know how to abound."},
  {ref:"Psalm 23:1",text:"The LORD is my shepherd; I shall not want."}],related:["gratitude","money"]},
-{id:"pride",name:"Pride",keys:["pride","prideful","arrogant","arrogance","ego","cocky"],intro:"What God says about pride:",verses:[
+{id:"pride",name:"Pride",emoji:"🧍",group:"Character & Growth",keys:["pride","prideful","arrogant","arrogance","ego","cocky"],intro:"What God says about pride:",verses:[
  {ref:"Proverbs 16:18",text:"Pride goes before destruction, and a haughty spirit before a fall."},
  {ref:"James 4:6",text:"...God opposes the proud but gives grace to the humble."},
  {ref:"Proverbs 11:2",text:"When pride comes, then comes disgrace, but with the humble is wisdom."}],related:["humility"]},
-{id:"humility",name:"Humility",keys:["humble","humility","meek","meekness"],intro:"On humility:",verses:[
+{id:"humility",name:"Humility",emoji:"🙇",group:"Character & Growth",keys:["humble","humility","meek","meekness"],intro:"On humility:",verses:[
  {ref:"Philippians 2:3",text:"Do nothing from selfish ambition or conceit, but in humility count others more significant than yourselves."},
  {ref:"1 Peter 5:6",text:"Humble yourselves, therefore, under the mighty hand of God so that at the proper time he may exalt you."},
  {ref:"Micah 6:8",text:"...what does the LORD require of you but to do justice, and to love kindness, and to walk humbly with your God?"}],related:["pride","serving"]},
-{id:"family",name:"Family & parents",keys:["family","parents","mom","dad","mother","father","obey","siblings","brother","sister"],intro:"On family:",verses:[
+{id:"family",name:"Family & parents",emoji:"👪",group:"Relationships",keys:["family","parents","mom","dad","mother","father","obey","siblings","brother","sister"],intro:"On family:",verses:[
  {ref:"Ephesians 6:1-2",text:"Children, obey your parents in the Lord, for this is right. \u201cHonor your father and mother\u201d (this is the first commandment with a promise)."},
  {ref:"Colossians 3:20",text:"Children, obey your parents in everything, for this pleases the Lord."},
  {ref:"Proverbs 1:8",text:"Hear, my son, your father\u2019s instruction, and forsake not your mother\u2019s teaching."}],related:["obedience","love"]},
-{id:"obedience",name:"Obedience",keys:["obey","obedience","obeying","rules","listen"],intro:"On obeying God:",verses:[
+{id:"obedience",name:"Obedience",emoji:"✅",group:"Character & Growth",keys:["obey","obedience","obeying","rules","listen"],intro:"On obeying God:",verses:[
  {ref:"John 14:15",text:"If you love me, you will keep my commandments."},
  {ref:"James 1:22",text:"But be doers of the word, and not hearers only, deceiving yourselves."},
  {ref:"Luke 11:28",text:"...Blessed rather are those who hear the word of God and keep it!"}],related:["family","wisdom"]},
-{id:"wisdom",name:"Wisdom",keys:["wisdom","wise","smart","understanding"],intro:"On wisdom:",verses:[
+{id:"wisdom",name:"Wisdom",emoji:"🦉",group:"Life & Choices",keys:["wisdom","wise","smart","understanding"],intro:"On wisdom:",verses:[
  {ref:"James 1:5",text:"If any of you lacks wisdom, let him ask God, who gives generously to all without reproach, and it will be given him."},
  {ref:"Proverbs 9:10",text:"The fear of the LORD is the beginning of wisdom, and the knowledge of the Holy One is insight."},
  {ref:"Proverbs 3:5-6",text:"Trust in the LORD with all your heart, and do not lean on your own understanding. In all your ways acknowledge him, and he will make straight your paths."}],related:["decisions","obedience"]},
-{id:"decisions",name:"Decisions",keys:["decision","decisions","decide","choices","choice","choosing","what should i do"],intro:"For making decisions:",verses:[
+{id:"decisions",name:"Decisions",emoji:"🧭",group:"Life & Choices",keys:["decision","decisions","decide","choices","choice","choosing","what should i do"],intro:"For making decisions:",verses:[
  {ref:"Proverbs 16:9",text:"The heart of man plans his way, but the LORD establishes his steps."},
  {ref:"Psalm 32:8",text:"I will instruct you and teach you in the way you should go; I will counsel you with my eye upon you."},
  {ref:"Proverbs 3:5-6",text:"Trust in the LORD with all your heart, and do not lean on your own understanding. In all your ways acknowledge him, and he will make straight your paths."}],related:["wisdom","trust"]},
-{id:"identity",name:"Who I am",keys:["identity","who am i","self worth","worth","value","special","made"],intro:"Who God says you are:",verses:[
+{id:"identity",name:"Who I am",emoji:"🪞",group:"Life & Choices",keys:["identity","who am i","self worth","worth","value","special","made"],intro:"Who God says you are:",verses:[
  {ref:"Psalm 139:14",text:"I praise you, for I am fearfully and wonderfully made. Wonderful are your works; my soul knows it very well."},
  {ref:"1 Peter 2:9",text:"But you are a chosen race, a royal priesthood, a holy nation, a people for his own possession, that you may proclaim the excellencies of him who called you out of darkness into his marvelous light."},
  {ref:"Ephesians 2:10",text:"For we are his workmanship, created in Christ Jesus for good works, which God prepared beforehand, that we should walk in them."}],related:["godslove","purpose"]},
-{id:"purpose",name:"Purpose",keys:["purpose","meaning","calling","why am i here","plan for me"],intro:"On your purpose:",verses:[
+{id:"purpose",name:"Purpose",emoji:"🎯",group:"Life & Choices",keys:["purpose","meaning","calling","why am i here","plan for me"],intro:"On your purpose:",verses:[
  {ref:"Proverbs 16:3",text:"Commit your work to the LORD, and your plans will be established."},
  {ref:"Romans 8:28",text:"And we know that for those who love God all things work together for good, for those who are called according to his purpose."},
  {ref:"Jeremiah 29:11",text:"For I know the plans I have for you, declares the LORD, plans for welfare and not for evil, to give you a future and a hope."}],related:["identity","serving"]},
-{id:"serving",name:"Serving others",keys:["serve","serving","service","help others","helping","volunteer"],intro:"On serving:",verses:[
+{id:"serving",name:"Serving others",emoji:"🤝",group:"Character & Growth",keys:["serve","serving","service","help others","helping","volunteer"],intro:"On serving:",verses:[
  {ref:"Mark 10:45",text:"For even the Son of Man came not to be served but to serve, and to give his life as a ransom for many."},
  {ref:"Galatians 5:13",text:"...through love serve one another."},
  {ref:"Colossians 3:23",text:"Whatever you do, work heartily, as for the Lord and not for men."}],related:["kindness","humility"]},
-{id:"gratitude",name:"Gratitude",keys:["grateful","gratitude","thankful","thanks","thanksgiving"],intro:"On being thankful:",verses:[
+{id:"gratitude",name:"Gratitude",emoji:"🙌",group:"Feelings & Struggles",keys:["grateful","gratitude","thankful","thanks","thanksgiving"],intro:"On being thankful:",verses:[
  {ref:"1 Thessalonians 5:16-18",text:"Rejoice always, pray without ceasing, give thanks in all circumstances; for this is the will of God in Christ Jesus for you."},
  {ref:"Psalm 107:1",text:"Oh give thanks to the LORD, for he is good, for his steadfast love endures forever!"},
  {ref:"James 1:17",text:"Every good gift and every perfect gift is from above, coming down from the Father of lights..."}],related:["joy","contentment"]},
-{id:"salvation",name:"Salvation",keys:["salvation","saved","born again","eternal life","become a christian","how to be saved"],intro:"How to be saved \u2014 the best news there is:",verses:[
+{id:"salvation",name:"Salvation",emoji:"✝️",group:"Faith & God",keys:["salvation","saved","born again","eternal life","become a christian","how to be saved"],intro:"How to be saved \u2014 the best news there is:",verses:[
  {ref:"John 3:16",text:"For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life."},
  {ref:"Romans 10:9",text:"...if you confess with your mouth that Jesus is Lord and believe in your heart that God raised him from the dead, you will be saved."},
  {ref:"Ephesians 2:8-9",text:"For by grace you have been saved through faith. And this is not your own doing; it is the gift of God, not a result of works, so that no one may boast."}],related:["grace","godslove"]},
-{id:"grace",name:"Grace",keys:["grace","mercy","undeserved"],intro:"On God\u2019s grace:",verses:[
+{id:"grace",name:"Grace",emoji:"🕊️",group:"Faith & God",keys:["grace","mercy","undeserved"],intro:"On God\u2019s grace:",verses:[
  {ref:"Ephesians 2:8-9",text:"For by grace you have been saved through faith. And this is not your own doing; it is the gift of God, not a result of works, so that no one may boast."},
  {ref:"Romans 5:8",text:"...but God shows his love for us in that while we were still sinners, Christ died for us."},
  {ref:"2 Corinthians 12:9",text:"My grace is sufficient for you, for my power is made perfect in weakness."}],related:["salvation","forgiveness"]},
-{id:"strength",name:"Strength",keys:["strength","strong","power","weak","weakness"],intro:"When you need strength:",verses:[
+{id:"strength",name:"Strength",emoji:"💪",group:"Feelings & Struggles",keys:["strength","strong","power","weak","weakness"],intro:"When you need strength:",verses:[
  {ref:"Philippians 4:13",text:"I can do all things through him who strengthens me."},
  {ref:"Isaiah 40:31",text:"...they who wait for the LORD shall renew their strength; they shall mount up with wings like eagles; they shall run and not be weary; they shall walk and not faint."},
  {ref:"Psalm 46:1",text:"God is our refuge and strength, a very present help in trouble."}],related:["courage","hope"]},
-{id:"rest",name:"Rest",keys:["rest","tired","sleep","weary","exhausted","burnout"],intro:"When you need rest:",verses:[
+{id:"rest",name:"Rest",emoji:"😴",group:"Feelings & Struggles",keys:["rest","tired","sleep","weary","exhausted","burnout"],intro:"When you need rest:",verses:[
  {ref:"Matthew 11:28",text:"Come to me, all who labor and are heavy laden, and I will give you rest."},
  {ref:"Psalm 23:2-3",text:"He makes me lie down in green pastures. He leads me beside still waters. He restores my soul."},
  {ref:"Exodus 33:14",text:"My presence will go with you, and I will give you rest."}],related:["peace","strength"]},
-{id:"healing",name:"Healing",keys:["healing","heal","sick","sickness","hurt","hurting","pain"],intro:"On healing:",verses:[
+{id:"healing",name:"Healing",emoji:"🩹",group:"Feelings & Struggles",keys:["healing","heal","sick","sickness","hurt","hurting","pain"],intro:"On healing:",verses:[
  {ref:"Psalm 147:3",text:"He heals the brokenhearted and binds up their wounds."},
  {ref:"Jeremiah 17:14",text:"Heal me, O LORD, and I shall be healed; save me, and I shall be saved, for you are my praise."},
  {ref:"Psalm 34:18",text:"The LORD is near to the brokenhearted and saves the crushed in spirit."}],related:["hope","rest"]},
-{id:"trust",name:"Trusting God",keys:["trust","trusting","rely","depend","let go"],intro:"On trusting God:",verses:[
+{id:"trust",name:"Trusting God",emoji:"🤝",group:"Faith & God",keys:["trust","trusting","rely","depend","let go"],intro:"On trusting God:",verses:[
  {ref:"Proverbs 3:5-6",text:"Trust in the LORD with all your heart, and do not lean on your own understanding. In all your ways acknowledge him, and he will make straight your paths."},
  {ref:"Psalm 56:3",text:"When I am afraid, I put my trust in you."},
  {ref:"Psalm 9:10",text:"And those who know your name put their trust in you, for you, O LORD, have not forsaken those who seek you."}],related:["faith","peace"]},
-{id:"heaven",name:"Heaven",keys:["heaven","paradise","after death","die","death","eternity"],intro:"What the Bible says about heaven:",verses:[
+{id:"heaven",name:"Heaven",emoji:"☁️",group:"Faith & God",keys:["heaven","paradise","after death","die","death","eternity"],intro:"What the Bible says about heaven:",verses:[
  {ref:"John 14:2-3",text:"In my Father\u2019s house are many rooms... And if I go and prepare a place for you, I will come again and will take you to myself, that where I am you may be also."},
  {ref:"Revelation 21:4",text:"He will wipe away every tear from their eyes, and death shall be no more, neither shall there be mourning, nor crying, nor pain anymore, for the former things have passed away."},
  {ref:"Philippians 3:20",text:"But our citizenship is in heaven, and from it we await a Savior, the Lord Jesus Christ."}],related:["salvation","hope"]},
-{id:"creation",name:"Creation",keys:["creation","created","nature","world","universe","stars"],intro:"On God\u2019s creation:",verses:[
+{id:"creation",name:"Creation",emoji:"🌍",group:"Faith & God",keys:["creation","created","nature","world","universe","stars"],intro:"On God\u2019s creation:",verses:[
  {ref:"Genesis 1:1",text:"In the beginning, God created the heavens and the earth."},
  {ref:"Psalm 19:1",text:"The heavens declare the glory of God, and the sky above proclaims his handiwork."},
  {ref:"Colossians 1:16",text:"For by him all things were created, in heaven and on earth, visible and invisible... all things were created through him and for him."}],related:["identity","gratitude"]},
-{id:"dating",name:"Dating & relationships",keys:["dating","date","relationship","relationships","boyfriend","girlfriend","crush","like someone"],intro:"Wisdom for relationships:",verses:[
+{id:"dating",name:"Dating & relationships",emoji:"💕",group:"Relationships",keys:["dating","date","relationship","relationships","boyfriend","girlfriend","crush","like someone"],intro:"Wisdom for relationships:",verses:[
  {ref:"Proverbs 4:23",text:"Keep your heart with all vigilance, for from it flow the springs of life."},
  {ref:"1 Timothy 4:12",text:"Let no one despise you for your youth, but set the believers an example in speech, in conduct, in love, in faith, in purity."},
  {ref:"1 Corinthians 13:4-5",text:"Love is patient and kind; love does not envy or boast; it is not arrogant or rude. It does not insist on its own way; it is not irritable or resentful."}],related:["love","selfcontrol","purity"]},
-{id:"purity",name:"Purity",keys:["purity","pure","pure heart","clean heart","holiness","holy"],intro:"On purity:",verses:[
+{id:"purity",name:"Purity",emoji:"🤍",group:"Life & Choices",keys:["purity","pure","pure heart","clean heart","holiness","holy"],intro:"On purity:",verses:[
  {ref:"Psalm 119:9",text:"How can a young man keep his way pure? By guarding it according to your word."},
  {ref:"Matthew 5:8",text:"Blessed are the pure in heart, for they shall see God."},
  {ref:"Philippians 4:8",text:"Finally, brothers, whatever is true, whatever is honorable, whatever is just, whatever is pure, whatever is lovely, whatever is commendable, if there is any excellence, if there is anything worthy of praise, think about these things."}],related:["selfcontrol","temptation","dating"]},
-{id:"holyspirit",name:"The Holy Spirit",keys:["holy spirit","spirit","helper","comforter"],intro:"On the Holy Spirit:",verses:[
+{id:"holyspirit",name:"The Holy Spirit",emoji:"🕊️",group:"Faith & God",keys:["holy spirit","spirit","helper","comforter"],intro:"On the Holy Spirit:",verses:[
  {ref:"John 14:26",text:"But the Helper, the Holy Spirit, whom the Father will send in my name, he will teach you all things and bring to your remembrance all that I have said to you."},
  {ref:"Acts 1:8",text:"But you will receive power when the Holy Spirit has come upon you, and you will be my witnesses..."},
  {ref:"Galatians 5:22-23",text:"But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control; against such things there is no law."}],related:["strength","faith"]}
 ];
+const TOPIC_GROUPS = ["Feelings & Struggles","Relationships","Character & Growth","Life & Choices","Faith & God"];
 const ASK_SUGGESTIONS = ["Forgiveness","Friendship","Prayer","Courage","Honesty","God\u2019s love","Who I am","Temptation"];
 
 
@@ -1166,6 +1166,7 @@ const S = {
 
 // ============ ICONS ============
 const ICONS = {
+ search:'<circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
  drop:'<path d="M12 3c3.5 4.5 6 7.7 6 10.5a6 6 0 1 1-12 0C6 10.7 8.5 7.5 12 3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
  waves:'<path d="M3 9c2.5-2 5-2 7.5 0S16 11 18.5 9 21 9 21 9M3 15c2.5-2 5-2 7.5 0s5.5 2 8 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
  flame:'<path d="M12 3s5.5 4.6 5.5 10a5.5 5.5 0 1 1-11 0c0-2.2 1-4 2.2-5.6.3 1.3 1 2.3 2 2.8C10.5 8 11 5.5 12 3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
@@ -1249,7 +1250,8 @@ function practiceText(text, mode){
 }
 
 // ============ STATE & ROUTER ============
-let state = { screen:'home', emotionId:null, subId:null, practice:0, editJ:null, readCat:null, readId:null, queueOpen:false, nameOpen:false, prayList:'self', prayAll:null, prayAns:null, prayFilter:null, editP:null };
+let state = { screen:'home', emotionId:null, subId:null, practice:0, editJ:null, readCat:null, readId:null, queueOpen:false, nameOpen:false, prayList:'self', prayAll:null, prayAns:null, prayFilter:null, editP:null, topicQuery:'', topicAZ:false, topicId:null };
+let TOPICDRAFT = '';
 let PENDTAGS = [];
 let PRAYDRAFT = '';
 let EDITTAGS = null;
@@ -1785,7 +1787,7 @@ function footer(){
 function renderNav(){
   const tabs = [
     {id:'home', label:'Verses', icon:'book', screens:['home','subs','passages']},
-    {id:'ask', label:'Topics', icon:'chat', screens:['ask']},
+    {id:'ask', label:'Topics', icon:'chat', screens:['ask','topic']},
     {id:'reads', label:'Reads', icon:'page', screens:['reads','readlist','read']},
     {id:'journal', label:'Prayers', icon:'pen', screens:['journal']},
     {id:'favorites', label:'Saved', icon:'star', screens:['favorites']}
@@ -1962,33 +1964,100 @@ function appReplyHTML(m){
     + '<div class="chips">'+ASK_SUGGESTIONS.map(s=>'<button class="chip" onclick="askQuery(\''+s.replace(/'/g,"\\'")+'\')">'+esc(s)+'</button>').join('')
     + '<button class="chip" style="border-style:dashed" onclick="showAllTopics()">See all topics\u2026</button></div></div>';
 }
+function topicTile(t){
+  return '<button class="ttile" onclick="openTopic(\''+t.id+'\')">'
+    + '<span class="dot">'+t.emoji+'</span><span class="name">'+esc(t.name)+'</span></button>';
+}
+function topicMatches(t, q){
+  if(!q) return true;
+  const hay = [t.name.toLowerCase().replace(/\u2019/g,"'"), ...(t.keys||[])].join(' ');
+  return hay.includes(q);
+}
 function renderAsk(){
   setTint(null);
-  let html = '<div class="top"><div><h1 style="font-size:2rem">Topics</h1><div class="sub">Search God\u2019s word by topic</div></div></div>';
-  html += '<div class="chatwrap">';
-  html += '<div class="msg app"><div>Hi! Ask me about a topic \u2014 like forgiveness, friendship, or courage \u2014 and I\u2019ll show you what God\u2019s word says.</div>'
-    + '<div class="chips">'+ASK_SUGGESTIONS.map(s=>'<button class="chip" onclick="askQuery(\''+s.replace(/'/g,"\\'")+'\')">'+esc(s)+'</button>').join('')
-    + '<button class="chip" style="border-style:dashed" onclick="showAllTopics()">See all topics\u2026</button></div></div>';
-  for(const m of CHAT){
-    if(m.who === 'me') html += '<div class="msg me">'+esc(m.text)+'</div>';
-    else html += appReplyHTML(m);
+  const q = normQ(state.topicQuery || '');
+  let html = '<div class="top"><div><h1 style="font-size:2rem">Topics</h1><div class="sub">Browse God\u2019s word by topic</div></div></div>';
+  // search bar
+  html += '<div class="tsearch">'
+    + '<span class="si">'+svg('search')+'</span>'
+    + '<input id="tin" placeholder="Search topics\u2026" enterkeyhint="search" value="'+esc(TOPICDRAFT)+'" '
+    + 'oninput="onTopicSearch(this.value)" onkeydown="if(event.key===\'Enter\')event.preventDefault()">'
+    + (state.topicQuery ? '<button class="clr" aria-label="Clear" onclick="clearTopicSearch()">\u2715</button>' : '')
+    + '</div>';
+  const matches = TOPICS.filter(t => topicMatches(t, q));
+  if(!matches.length){
+    html += '<div class="tnores">No topics match \u201c'+esc(state.topicQuery)+'.\u201d<br>Try another word, or clear the search to see all topics.</div>';
+    app.innerHTML = html; return;
   }
-  if(PENDING) html += '<div class="msg app"><span class="typing"><span></span><span></span><span></span></span></div>';
-  if(CHAT.length && !PENDING) html += '<button class="clearchat" onclick="clearChat()">Clear chat</button>';
-  html += '</div>';
-  html += '<div class="askbar"><div class="inner">'
-    + '<input id="askin" placeholder="Ask about a topic\u2026" enterkeyhint="send" onkeydown="if(event.key===\'Enter\')askSend()">'
-    + '<button class="btn" onclick="askSend()">Send</button></div></div>';
+  // view toggle (hidden while actively searching)
+  if(!q){
+    html += '<div class="tviewtog"><span class="lbl">'+TOPICS.length+' topics</span>'
+      + '<button class="'+(!state.topicAZ?'on':'')+'" onclick="setTopicAZ(false)">Grouped</button>'
+      + '<button class="'+(state.topicAZ?'on':'')+'" onclick="setTopicAZ(true)">A\u2013Z</button></div>';
+  }
+  if(q || state.topicAZ){
+    // flat A–Z grid (also used for search results)
+    const sorted = [...matches].sort((a,b)=>a.name.localeCompare(b.name));
+    html += '<div class="grid" style="margin-top:10px">'+sorted.map(topicTile).join('')+'</div>';
+  } else {
+    // grouped
+    for(const g of TOPIC_GROUPS){
+      const inG = matches.filter(t=>t.group===g).sort((a,b)=>a.name.localeCompare(b.name));
+      if(!inG.length) continue;
+      html += '<div class="sechead" style="margin-top:20px">'+esc(g)+'</div>';
+      html += '<div class="grid" style="margin-top:8px">'+inG.map(topicTile).join('')+'</div>';
+    }
+  }
+  app.innerHTML = html;
+}
+function onTopicSearch(v){
+  TOPICDRAFT = v;
+  const had = !!state.topicQuery;
+  state.topicQuery = v;
+  render();
+  // keep focus + caret in the search box across the re-render
+  const el = document.getElementById('tin');
+  if(el){ el.focus(); const n=el.value.length; try{el.setSelectionRange(n,n);}catch(e){} }
+}
+function clearTopicSearch(){ TOPICDRAFT=''; state.topicQuery=''; render(); const el=document.getElementById('tin'); if(el) el.focus(); }
+function setTopicAZ(v){ state.topicAZ = v; render(); }
+function openTopic(id){ TOPICDRAFT = ''; go({screen:'topic', topicId:id}); }
+function renderTopic(){
+  setTint(null);
+  const t = topicById(state.topicId);
+  if(!t){ go({screen:'ask'}); return; }
+  let html = '<div class="top"><button class="back" onclick="go({screen:\'ask\'})" aria-label="Back">\u2190</button>'
+    + '<div><h1><span style="margin-right:8px">'+t.emoji+'</span>'+esc(t.name)+'</h1><div class="sub">'+esc(t.intro)+'</div></div></div>';
+  for(const v of t.verses){
+    const fid = favId('topic', t.id, v.ref);
+    const on = isFav(fid);
+    html += '<div class="mini"><div class="vt">'+esc(v.text)+'</div>'
+      + '<div class="vr" style="display:flex;justify-content:space-between;align-items:center;gap:8px">'
+      + '<span>\u2014 '+esc(v.ref)+' (ESV)</span><span class="acts">'
+      + '<button class="share" aria-label="Share verse" data-t="'+esc(v.text)+'" data-r="'+esc(v.ref)+'" onclick="shareVerse(this.dataset.t, this.dataset.r)">'+svg('shareic')+'</button>'
+      + '<button class="fav'+(on?' on':'')+(lastFavPop===fid?' pop':'')+'" aria-label="'+(on?'Remove from favorites':'Save to favorites')+'" onclick="toggleFav(\''+fid+'\')">'+(on?'\u2605':'\u2606')+'</button></span></div>'
+      + memControls(v.ref, v.text, on)
+      + '</div>';
+  }
+  if(t.related && t.related.length){
+    const rel = t.related.map(topicById).filter(Boolean);
+    if(rel.length){
+      html += '<div class="sechead" style="margin-top:24px">Related topics</div>';
+      html += '<div class="grid" style="margin-top:8px">'+rel.map(topicTile).join('')+'</div>';
+    }
+  }
   app.innerHTML = html;
 }
 
 let lastScreen = null;
 function render(){
   if(state.screen !== 'journal'){ state.editJ = null; state.editP = null; EDITTAGS = null; EDITTEXT = null; }
+  if(state.screen !== 'ask' && state.screen !== 'topic'){ state.topicQuery = ''; TOPICDRAFT = ''; }
   if(state.screen==='home') renderHome();
   else if(state.screen==='subs') renderSubs();
   else if(state.screen==='passages') renderPassages();
   else if(state.screen==='ask') renderAsk();
+  else if(state.screen==='topic') renderTopic();
   else if(state.screen==='reads') renderReads();
   else if(state.screen==='readlist') renderReadList();
   else if(state.screen==='read') renderRead();
