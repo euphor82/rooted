@@ -1184,7 +1184,7 @@ const S = {
 
 // ============ ICONS ============
 const ICONS = {
- gear:'<path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M19.4 13a7.8 7.8 0 0 0 0-2l2-1.5-2-3.5-2.4 1a7.8 7.8 0 0 0-1.7-1l-.4-2.5h-4l-.4 2.5a7.8 7.8 0 0 0-1.7 1l-2.4-1-2 3.5L4.6 11a7.8 7.8 0 0 0 0 2l-2 1.5 2 3.5 2.4-1a7.8 7.8 0 0 0 1.7 1l.4 2.5h4l.4-2.5a7.8 7.8 0 0 0 1.7-1l2.4 1 2-3.5-2-1.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+ gear:'<path fill="currentColor" fill-rule="evenodd" d="M12.0 3.4L14.146 1.211L18.111 2.854L18.081 5.919L18.081 5.919L21.146 5.889L22.789 9.854L20.6 12.0L20.6 12.0L22.789 14.146L21.146 18.111L18.081 18.081L18.081 18.081L18.111 21.146L14.146 22.789L12.0 20.6L12.0 20.6L9.854 22.789L5.889 21.146L5.919 18.081L5.919 18.081L2.854 18.111L1.211 14.146L3.4 12.0L3.4 12.0L1.211 9.854L2.854 5.889L5.919 5.919L5.919 5.919L5.889 2.854L9.854 1.211L12.0 3.4ZM15.5 12A3.5 3.5 0 1 0 8.5 12A3.5 3.5 0 1 0 15.5 12Z"/>',
  search:'<circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
  drop:'<path d="M12 3c3.5 4.5 6 7.7 6 10.5a6 6 0 1 1-12 0C6 10.7 8.5 7.5 12 3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
  waves:'<path d="M3 9c2.5-2 5-2 7.5 0S16 11 18.5 9 21 9 21 9M3 15c2.5-2 5-2 7.5 0s5.5 2 8 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
@@ -1541,9 +1541,8 @@ function renderSettings(){
   // About / for parents
   html += '<div class="sechead" style="margin-top:24px">About</div>'
     + '<div class="pcard" style="border-left-color:var(--gold)">'
-    + '<div class="why" style="margin-top:0"><b>Rooted</b> is a personal, scripture-based app made to help kids and families meet God in his word. It\u2019s a private ministry project \u2014 not affiliated with any church or organization, and offered freely with no warranty.</div>'
+    + '<div class="why" style="margin-top:0"><b>Rooted</b> is a personal, scripture-based app made to help kids, families or any individual meet God in his word. It\u2019s a private ministry project \u2014 not affiliated with any church or organization, and offered freely.</div>'
     + '<div class="why"><b>For parents:</b> Rooted keeps everything on your child\u2019s own device. Nothing is collected, uploaded, or shared \u2014 there are no accounts and no ads. Verses come from the ESV. Some topics touch on real questions of faith and life; we\u2019d encourage you to explore it alongside your child.</div>'
-    + '<div class="why" style="font-size:.82rem">If you or someone you know is struggling, please reach out to a trusted adult, pastor, or counselor. In a crisis, call or text 988 (U.S.) to reach the Suicide &amp; Crisis Lifeline.</div>'
     + '</div>';
 
   html += footer();
