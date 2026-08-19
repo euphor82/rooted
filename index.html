@@ -1269,7 +1269,7 @@ function practiceText(text, mode){
 }
 
 // ============ STATE & ROUTER ============
-let state = { screen:'home', emotionId:null, subId:null, practice:0, editJ:null, readCat:null, readId:null, queueOpen:false, nameOpen:false, prayList:'self', prayAll:null, prayAns:null, prayFilter:null, editP:null, topicQuery:'', topicAZ:false, topicId:null, installOpen:false };
+let state = { screen:'home', emotionId:null, subId:null, practice:0, editJ:null, readCat:null, readId:null, queueOpen:false, nameOpen:false, prayList:'self', prayAll:null, prayAns:null, prayFilter:null, editP:null, topicQuery:'', topicAZ:false, topicId:null, installOpen:false, backupPlat:'apple', backupHelpOpen:false };
 let TOPICDRAFT = '';
 let PENDTAGS = [];
 let PRAYDRAFT = '';
@@ -1488,6 +1488,7 @@ function backupBanner(){
 }
 function snoozeBackup(){ S.set('backupSnooze', Date.now()); render(); }
 function setBackupFreq(f){ S.set('backupFreq', f); S.set('backupSnooze', 0); render(); }
+function setBackupHelpOpen(v){ state.backupHelpOpen = v; }
 function renderSettings(){
   setTint(null);
   let html = '<div class="top"><button class="back" onclick="go({screen:\'home\'})" aria-label="Back">\u2190</button>'
@@ -1503,6 +1504,31 @@ function renderSettings(){
     + '</div>'
     + '<input type="file" id="importfile" accept=".json,application/json" style="display:none" onchange="importBackup(this)">'
     + '</div>';
+
+  // Collapsible: where to save the backup (platform-specific)
+  const bplat = state.backupPlat || 'apple';
+  html += '<details class="installbox"'+(state.backupHelpOpen?' open':'')+' ontoggle="if(event.target.open!==undefined)setBackupHelpOpen(event.target.open)">'
+    + '<summary>\u{1F4C1} Where should I save my backup?<span class="chev">\u25BE</span></summary>'
+    + '<div class="installbody">'
+    + '<div class="why" style="margin-top:8px">When you tap \u201cSave backup file,\u201d your phone downloads a small file. Here\u2019s where to keep it so you can find it later.</div>'
+    + '<div class="praytabs" style="margin-top:12px">'
+    + '<button class="'+(bplat==='apple'?'on':'')+'" onclick="go({backupPlat:\'apple\', backupHelpOpen:true})">iPhone / iPad</button>'
+    + '<button class="'+(bplat==='android'?'on':'')+'" onclick="go({backupPlat:\'android\', backupHelpOpen:true})">Android</button>'
+    + '</div>'
+    + (bplat==='apple'
+        ? '<ol>'
+          + '<li>Tap <b>Save backup file</b> above.</li>'
+          + '<li>In the share sheet that appears, tap <b>Save to Files</b>.</li>'
+          + '<li>Choose a spot you\u2019ll remember \u2014 <b>On My iPhone</b> or <b>iCloud Drive</b> \u2014 then tap <b>Save</b>.</li>'
+          + '<li>To restore later, tap <b>Restore from backup</b> above and pick that file from the <b>Files</b> app.</li>'
+          + '</ol><div class="note">Saving to iCloud Drive means the backup is safe even if you lose your phone.</div>'
+        : '<ol>'
+          + '<li>Tap <b>Save backup file</b> above.</li>'
+          + '<li>The file saves to your <b>Downloads</b> folder (you can open it in the <b>Files</b> app).</li>'
+          + '<li>To keep it safe, move or copy it to <b>Google Drive</b> \u2014 open Drive, tap <b>+</b>, then <b>Upload</b>, and pick the file.</li>'
+          + '<li>To restore later, tap <b>Restore from backup</b> above and choose the file from Downloads or Drive.</li>'
+          + '</ol><div class="note">Backing up to Google Drive means it\u2019s safe even if you lose your phone.</div>')
+    + '</div></details>';
 
   // Backup reminder frequency
   const freq = S.get('backupFreq', 'weekly');
@@ -2151,6 +2177,7 @@ let lastScreen = null;
 function render(){
   if(state.screen !== 'journal'){ state.editJ = null; state.editP = null; EDITTAGS = null; EDITTEXT = null; }
   if(state.screen !== 'ask' && state.screen !== 'topic'){ state.topicQuery = ''; TOPICDRAFT = ''; }
+  if(state.screen !== 'settings'){ state.backupHelpOpen = false; }
   if(state.screen==='home') renderHome();
   else if(state.screen==='subs') renderSubs();
   else if(state.screen==='passages') renderPassages();
