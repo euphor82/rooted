@@ -1,4 +1,4 @@
-const CACHE = 'rooted-v40';
+const CACHE = 'rooted-v41';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
